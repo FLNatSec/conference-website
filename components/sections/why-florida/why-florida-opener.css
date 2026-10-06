@@ -1,0 +1,78 @@
+/*
+ * Hero composition. The map is positioned so the peninsula sits right of
+ * center and the title occupies the Gulf's negative space below the Panhandle.
+ * --w is the rendered map width; offsets are expressed in map-relative terms
+ * so the composition holds from laptop to large desktop.
+ */
+
+.wfo {
+  min-height: 100svh;
+}
+
+.wfo__atmosphere {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background:
+    radial-gradient(120% 90% at 72% 42%, color-mix(in oklab, var(--color-ink-3) 55%, transparent) 0%, transparent 62%),
+    radial-gradient(80% 60% at 10% 100%, color-mix(in oklab, black 30%, transparent) 0%, transparent 70%),
+    var(--color-ink);
+}
+
+/* Mobile: map on top, text below. */
+.wfo__map {
+  --w: 118vw;
+  position: relative;
+  width: var(--w);
+  margin-left: -12vw;
+  margin-top: 4.75rem;
+  margin-bottom: -4vw;
+  pointer-events: none;
+  /* Keep routes inside the map box on small screens so they never cross the text. */
+  overflow: hidden;
+}
+
+.wfo__content {
+  padding-bottom: 6.5rem;
+}
+
+.wfo__strip {
+  position: absolute;
+  inset: auto 0 0 0;
+}
+
+@media (min-width: 48rem) {
+  .wfo__map {
+    --w: 104vw;
+    margin-left: -6vw;
+    margin-top: 5rem;
+    margin-bottom: -10vw;
+  }
+}
+
+/* Desktop: map absolutely composed behind the text column. */
+@media (min-width: 64rem) {
+  .wfo {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    min-height: max(100svh, 46rem);
+  }
+
+  .wfo__map {
+    --w: min(72vw, 114svh, 1500px);
+    position: absolute;
+    margin: 0;
+    overflow: visible;
+    width: var(--w);
+    /* Peninsula's east coast lands near 90% of the viewport width. */
+    left: calc(90vw - var(--w) * 0.83);
+    /* Florida's northern border lands near 15% of the viewport height. */
+    top: calc(15svh - var(--w) * 0.08);
+  }
+
+  .wfo__content {
+    padding-top: 9rem;
+    padding-bottom: 7.5rem;
+  }
+}

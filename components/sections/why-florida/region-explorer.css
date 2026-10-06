@@ -1,0 +1,88 @@
+/* Region explorer: shaded county-based regions over the paper map. */
+
+.rx-regions {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+.rx-regions path {
+  fill: color-mix(in oklab, var(--color-graphite) 11%, var(--color-paper));
+  stroke: var(--color-paper);
+  stroke-width: 2;
+  stroke-linejoin: round;
+  vector-effect: non-scaling-stroke;
+  cursor: pointer;
+  transition: fill 200ms var(--ease-precise);
+}
+
+.rx-regions path:hover {
+  fill: color-mix(in oklab, var(--color-highlight-700) 28%, var(--color-paper));
+}
+
+/* Active region (one rule per region id; ids come from content/florida/ecosystem.ts). */
+.rx-map[data-active="northwest"] [data-region="northwest"],
+.rx-map[data-active="north-central"] [data-region="north-central"],
+.rx-map[data-active="northeast"] [data-region="northeast"],
+.rx-map[data-active="central"] [data-region="central"],
+.rx-map[data-active="tampa-bay"] [data-region="tampa-bay"],
+.rx-map[data-active="south"] [data-region="south"] {
+  fill: var(--color-highlight-700);
+}
+
+/* Map labels: dark text with a paper halo, readable over any fill. */
+.rx-label {
+  position: absolute;
+  translate: -50% -50%;
+  white-space: nowrap;
+  font-family: var(--font-display);
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-graphite);
+  text-shadow:
+    0 0 2px var(--color-paper),
+    0 0 4px var(--color-paper),
+    0 0 8px var(--color-paper);
+  transition: color 200ms;
+}
+
+/* Selected: a solid chip, legible over the dark fill and the light map alike. */
+.rx-label--active {
+  padding: 0.2rem 0.45rem;
+  background: var(--color-paper);
+  color: var(--color-highlight-700);
+  font-weight: 700;
+  text-shadow: none;
+  box-shadow: 0 1px 6px color-mix(in oklab, var(--color-ink) 25%, transparent);
+}
+
+@media (max-width: 47.99rem) {
+  .rx-label {
+    font-size: 0.56rem;
+    letter-spacing: 0.04em;
+  }
+}
+
+.rx-col {
+  animation: rx-in 320ms var(--ease-precise);
+}
+
+@keyframes rx-in {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .rx-col {
+    animation: none;
+  }
+  .rx-regions path {
+    transition: none;
+  }
+}
