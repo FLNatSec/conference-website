@@ -21,7 +21,7 @@ export const site = {
   ],
 
   ctas: {
-    primary: { label: "Join the mailing list", href: "/#join" },
+    primary: { label: "Join the mailing list", href: "#join" },
     secondary: { label: "Why Florida", href: "/why-florida" },
   },
 
@@ -30,10 +30,8 @@ export const site = {
   social: { linkedin: "https://www.linkedin.com/showcase/florida-national-security-summit/" },
 
   mailingList: {
-    // Interim: a pre-addressed email until a mailing provider is chosen.
-    href: `mailto:${email}?subject=${encodeURIComponent("Join the mailing list")}&body=${encodeURIComponent(
-      "Please add me to the Florida National Security Summit mailing list.\n\nName:\nOrganization:\nRole (student, government/military, industry, investor, academia, media):",
-    )}`,
+    // The signup form lives in the closing section of every page (components/blocks/CtaBand.tsx).
+    href: "#join",
     benefits: [
       "Speaker announcements",
       "Registration updates",

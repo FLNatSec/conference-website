@@ -28,10 +28,7 @@ export interface SiteConfig {
   contact: { email: string };
   /** Set a URL to show the link; `null` hides it. */
   social: { linkedin: string | null };
-  /**
-   * Where "Join the mailing list" submits. Until a mailing provider is chosen,
-   * this is a pre-addressed email; swap for a form/provider URL later.
-   */
+  /** Where "Join the mailing list" links go (the signup form's #join anchor). */
   mailingList: { href: string; benefits: string[] };
   /** Announcements not yet live. Remove an entry (or change it) when it launches. */
   comingSoon: { id: "speakers" | "partners" | "registration"; title: string; body: string }[];

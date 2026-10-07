@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { ButtonLink } from "@/components/ui/Button";
+import { SignupForm } from "@/components/forms/SignupForm";
 import { Container } from "@/components/ui/Container";
 import { TextLink } from "@/components/ui/TextLink";
 import { heroVideo } from "@/content/media/hero-video";
@@ -7,8 +7,8 @@ import { site } from "@/content/site";
 import { finalCta } from "@/content/summit";
 
 /**
- * Closing invitation used at the end of every page (anchor: #join). Until a
- * mailing provider is chosen, "Join" opens a pre-addressed email.
+ * Closing invitation used at the end of every page (anchor: #join), with the
+ * mailing-list signup form (Kit backend; see app/actions/subscribe.ts).
  */
 export function CtaBand() {
   return (
@@ -29,11 +29,7 @@ export function CtaBand() {
             {finalCta.headline}
           </h2>
           <p className="mt-6 max-w-[48ch] text-lede text-bone/80">{finalCta.body}</p>
-          <div className="mt-10 flex flex-col gap-3 sm:flex-row">
-            <ButtonLink href={site.mailingList.href} arrow>
-              {site.ctas.primary.label}
-            </ButtonLink>
-          </div>
+          <SignupForm className="mt-10" />
         </div>
 
         <div className="md:col-span-4 md:col-start-9 md:self-end">

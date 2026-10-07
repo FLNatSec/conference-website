@@ -4,7 +4,7 @@ The website for the Florida National Security Summit, a statewide summit conveni
 
 Built with Next.js 16 (App Router), React 19, TypeScript, and Tailwind CSS v4. Deployed on Vercel.
 
-> **Status:** first public version (awareness stage). Speakers, partners, and registration are marked "coming soon" in `content/site.ts → comingSoon`. Next: connect Kit for the mailing list.
+> **Status:** first public version (awareness stage). Speakers, partners, and registration are marked "coming soon" in `content/site.ts → comingSoon`. Mailing list: Kit, via a custom form.
 
 ## Getting started
 
@@ -25,6 +25,10 @@ npm run dev        # http://localhost:3000
 ## Deployment
 
 Vercel deploys `main` to production and every other branch to a preview URL. Production is indexed (see `app/robots.ts`); previews are not. The review pages below return 404 in production.
+
+## Mailing list (Kit)
+
+The signup form (`components/forms/SignupForm.tsx`) posts to a Server Action (`app/actions/subscribe.ts`) that creates the subscriber in Kit as **active** (single opt-in), adds them to the form, and tags them. Credentials are server-side environment variables only; see `.env.example`. In Kit, keep the form's "Send incentive email" setting **off**.
 
 ## Review pages (not indexed)
 

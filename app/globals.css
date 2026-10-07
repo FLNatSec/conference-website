@@ -40,6 +40,9 @@
   --color-highlight-500: #5fa8e6;
   --color-highlight-700: #1e4e7c; /* text-safe emphasis and links on paper */
 
+  /* Alert — form errors on navy */
+  --color-alert-300: #ffb4a8;
+
   /* Fonts (variables provided by next/font in app/layout.tsx) */
   --font-sans: var(--font-archivo), ui-sans-serif, system-ui, sans-serif;
   --font-display: var(--font-archivo), ui-sans-serif, system-ui, sans-serif;

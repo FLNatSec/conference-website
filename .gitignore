@@ -42,3 +42,6 @@ next-env.d.ts
 
 # raw media masters (keep in the shared Drive, not git)
 /assets-src/video/
+
+# template only (no secrets)
+!.env.example
