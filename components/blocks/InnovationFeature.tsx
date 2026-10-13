@@ -9,10 +9,9 @@ export function InnovationFeature({ detailed = false }: { detailed?: boolean }) 
   return (
     <div>
       <div className="grid gap-px overflow-hidden border border-bone/15 bg-bone/15 md:grid-cols-2">
-        {items.map((item, i) => (
+        {items.map((item) => (
           <article key={item.title} className="flex flex-col bg-ink-deep/80 p-7 backdrop-blur-sm md:p-10">
-            <p className="type-label text-highlight-300">{String(i + 1).padStart(2, "0")}</p>
-            <h3 className="type-expanded mt-8 max-w-[16ch] font-display text-[1.7rem] leading-[1.02] font-semibold uppercase md:text-[2.1rem]">
+            <h3 className="type-expanded max-w-[16ch] font-display text-[1.7rem] leading-[1.02] font-semibold uppercase md:text-[2.1rem]">
               {item.title}
             </h3>
             <p className="mt-5 max-w-[46ch] text-[1.02rem] leading-relaxed text-bone/80">{item.body}</p>

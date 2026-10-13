@@ -44,7 +44,7 @@ export function WhyFloridaOpener({ map }: WhyFloridaOpenerProps) {
         </h1>
 
         <p className="mt-7 max-w-[30ch] font-serif text-[1.45rem] leading-snug text-bone/85 md:text-[1.75rem]">
-          Florida is not where national security happens to meet. It is where much of it already operates.
+          Florida is a strategic hub for national security, decades in the making and still growing.
         </p>
       </Container>
 

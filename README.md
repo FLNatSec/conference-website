@@ -1,10 +1,10 @@
 # Florida National Security Summit — website
 
-The website for the Florida National Security Summit, a statewide summit convening Florida's national-security ecosystem. The inaugural summit takes place March 26–27, 2027, in Gainesville, Florida.
+The website for the Florida National Security Summit, a statewide summit convening Florida's national-security ecosystem. The inaugural summit is planned for March 25–27, 2027, in Gainesville, Florida.
 
 Built with Next.js 16 (App Router), React 19, TypeScript, and Tailwind CSS v4. Deployed on Vercel.
 
-> **Status:** first public version (awareness stage). Speakers, partners, and registration are marked "coming soon" in `content/site.ts → comingSoon`. Mailing list: Kit, via a custom form.
+> **Status:** early-stage site — Home, Why Florida, The Experience, and Get Involved. Unfinished pages and sections are hidden behind feature flags in `content/features.ts` (see `docs/feature-flags.md`). Mailing list: Kit, via a custom form.
 
 ## Getting started
 
@@ -66,7 +66,7 @@ docs/video-brief.md      AI shot prompts, rules, file locations, and the ffmpeg 
 ## Common tasks
 
 - **Change the hero line or tagline:** edit `supportingLine` / `tagline` in `content/site.ts`.
-- **Edit page copy:** `content/summit.ts` (mission, pillars, lanes, innovation, audiences, statewide) and `content/florida/ecosystem.ts` (Why Florida).
+- **Edit page copy:** `content/summit.ts` (mission, experience, topics, ways to get involved, audiences, and copy kept for hidden pages) and `content/florida/ecosystem.ts` (Why Florida).
 - **Add the LinkedIn link:** set `social.linkedin` in `content/site.ts`.
 - **Add advisors or team members:** add entries to `content/people.ts` (only with their permission); the About page shows each group once it has members.
 - **Confirm an organizer's public wording:** set `roleLabel` for that organization in `content/editions/2027.ts`. `null` keeps it hidden.

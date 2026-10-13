@@ -8,8 +8,9 @@ import { cn } from "@/lib/cn";
 interface HeroVideoProps {
   desktop: VideoSource;
   mobile: VideoSource;
-  chapters: VideoChapter[];
-  credit: string;
+  /** Not shown on the page (kept in content for the lab). Footage credits live in docs/asset-sources.md. */
+  chapters?: VideoChapter[];
+  credit?: string;
 }
 
 type Status = "poster" | "playing" | "paused";
@@ -30,14 +31,13 @@ function shouldSkipVideo(): boolean {
  * Background video for the homepage hero, layered over a server-rendered poster
  * (the poster is the first paint and LCP). The video source is attached only
  * after the page has loaded, picked per screen size, and skipped entirely under
- * reduced motion, Save-Data, or slow connections. Also renders the hero's
- * bottom strip: the synced chapter label, credit, and a pause control.
+ * reduced motion, Save-Data, or slow connections. Also renders a small
+ * icon-only pause/play control (WCAG 2.2.2: moving content can be paused).
  */
-export function HeroVideo({ desktop, mobile, chapters, credit }: HeroVideoProps) {
+export function HeroVideo({ desktop, mobile }: HeroVideoProps) {
   const videoRef = useRef<HTMLVideoElement>(null);
   const userPaused = useRef(false);
   const [status, setStatus] = useState<Status>("poster");
-  const [chapterIndex, setChapterIndex] = useState(0);
 
   useEffect(() => {
     const video = videoRef.current;
@@ -72,15 +72,6 @@ export function HeroVideo({ desktop, mobile, chapters, credit }: HeroVideoProps)
     };
   }, [desktop, mobile]);
 
-  const onTimeUpdate = () => {
-    const t = videoRef.current?.currentTime ?? 0;
-    let index = 0;
-    chapters.forEach((c, i) => {
-      if (t >= c.start) index = i;
-    });
-    if (index !== chapterIndex) setChapterIndex(index);
-  };
-
   const toggle = () => {
     const video = videoRef.current;
     if (!video) return;
@@ -92,8 +83,6 @@ export function HeroVideo({ desktop, mobile, chapters, credit }: HeroVideoProps)
       video.pause();
     }
   };
-
-  const chapter = chapters[chapterIndex];
 
   return (
     <>
@@ -111,34 +100,22 @@ export function HeroVideo({ desktop, mobile, chapters, credit }: HeroVideoProps)
         tabIndex={-1}
         onPlaying={() => setStatus("playing")}
         onPause={() => setStatus((s) => (s === "poster" ? s : "paused"))}
-        onTimeUpdate={chapters.length > 1 ? onTimeUpdate : undefined}
       />
 
-      <div className="absolute inset-x-0 bottom-0 z-3">
-        {/* Fixed height so the pause control appearing later never shifts layout. */}
-        <Container className="flex h-16 items-center justify-between gap-4 border-t border-bone/15 text-bone/70">
-          <p className="type-label flex min-w-0 items-center gap-3" aria-live="off">
-            <span aria-hidden="true" className="size-1.5 shrink-0 rounded-full bg-highlight-300" />
-            <span className="truncate">
-              {chapter.label}
-              
-            </span>
-          </p>
-          <div className="flex shrink-0 items-center gap-5">
-            <span className="type-label hidden text-bone/60 md:inline">{credit}</span>
-            {status !== "poster" && (
-              <button
-                type="button"
-                onClick={toggle}
-                className="type-label inline-flex items-center gap-2 rounded-full border border-bone/25 px-3 py-1.5 text-bone/80 transition-colors hover:border-bone/60 hover:text-bone"
-              >
-                <span aria-hidden="true">{status === "playing" ? "❚❚" : "▶"}</span>
-                {status === "playing" ? "Pause video" : "Play video"}
-              </button>
-            )}
-          </div>
-        </Container>
-      </div>
+      {status !== "poster" && (
+        <div className="pointer-events-none absolute inset-x-0 bottom-0 z-3">
+          <Container className="flex justify-end pb-5 md:pb-6">
+            <button
+              type="button"
+              onClick={toggle}
+              aria-label={status === "playing" ? "Pause background video" : "Play background video"}
+              className="pointer-events-auto inline-flex size-8 items-center justify-center rounded-full border border-bone/20 text-[0.6rem] text-bone/60 transition-colors hover:border-bone/50 hover:text-bone"
+            >
+              <span aria-hidden="true">{status === "playing" ? "❚❚" : "▶"}</span>
+            </button>
+          </Container>
+        </div>
+      )}
     </>
   );
 }

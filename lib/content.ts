@@ -60,6 +60,12 @@ export function formatDateRange(start: string, end: string): string {
   return `${MONTHS[a.m]} ${a.d}, ${a.y} – ${MONTHS[b.m]} ${b.d}, ${b.y}`;
 }
 
+/** The edition's dates as shown publicly: "March 25–27, 2027 (tentative)". */
+export function formatEditionDates(edition: Edition): string {
+  const range = formatDateRange(edition.startDate, edition.endDate);
+  return edition.datesTentative ? `${range} (tentative)` : range;
+}
+
 /** "Friday · March 26" */
 export function formatDayLabel(iso: string): string {
   const p = parts(iso);

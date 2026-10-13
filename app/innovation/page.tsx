@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { notFound } from "next/navigation";
 import { CtaBand } from "@/components/blocks/CtaBand";
 import { InnovationFeature } from "@/components/blocks/InnovationFeature";
 import { PageHero } from "@/components/blocks/PageHero";
@@ -9,6 +10,7 @@ import { Container } from "@/components/ui/Container";
 import { Section } from "@/components/ui/Section";
 import { heroVideo } from "@/content/media/hero-video";
 import { inquiryHref } from "@/content/site";
+import { features } from "@/content/features";
 
 export const metadata: Metadata = {
   title: "Innovation",
@@ -17,6 +19,8 @@ export const metadata: Metadata = {
 };
 
 export default function InnovationPage() {
+  // Hidden while the flag is off (next.config.ts also redirects this URL). See docs/feature-flags.md.
+  if (!features.innovationPage) notFound();
   return (
     <>
       <PageHero

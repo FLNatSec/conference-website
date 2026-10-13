@@ -5,7 +5,7 @@ import { subscribe, type SubscribeState } from "@/app/actions/subscribe";
 import { cn } from "@/lib/cn";
 
 export const SIGNUP_SUCCESS =
-  "You’re on the list. We’ll send speaker announcements, registration updates, program releases, and innovation opportunities as they’re announced.";
+  "You’re on the list. We’ll send speaker announcements, program news, and innovation opportunities as they’re announced.";
 
 const field =
   "h-12 w-full border border-bone/25 bg-ink-deep/60 px-4 text-[0.98rem] text-bone placeholder:text-bone/45 " +

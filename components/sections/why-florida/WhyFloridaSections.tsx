@@ -8,23 +8,27 @@ import { ButtonLink } from "@/components/ui/Button";
 import { Container } from "@/components/ui/Container";
 import { Section } from "@/components/ui/Section";
 import {
-  categoryLabels,
-  categoryOrder,
+  capabilities,
+  categoryGroups,
   connectedGroups,
   ecosystemReviewStatus,
   floridaStats,
   history,
-  opportunities,
   regions,
   statewide,
 } from "@/content/florida/ecosystem";
+import { isPageEnabled } from "@/content/features";
 import { site } from "@/content/site";
 import { thesis } from "@/content/summit";
 import type { Source } from "@/lib/types";
 
 /* ---------- 01 Florida today ---------- */
 
-/** Verified headline figures, then each region by category, then statewide institutions. */
+/**
+ * Five strategic capabilities (what Florida has and the national priority each
+ * serves), verified headline figures, then the region explorer — grouped by the
+ * same five areas — for the specifics.
+ */
 export function FloridaToday() {
   return (
     <Section tone="paper" id="today">
@@ -34,9 +38,28 @@ export function FloridaToday() {
             tone="paper"
             index="01"
             label="Florida today"
-            heading="Commands, launch, industry, research, and capital — across the state."
-            lede="Florida’s national-security ecosystem spans combatant commands and test ranges, spaceports and rocket factories, defense manufacturers and startups, universities and investors. Hover over or tap a region on the map to see what’s there."
+            heading="From the Panhandle to the Keys."
+            lede="Some of Florida’s key strengths, spread across the state and tied to national priorities."
           />
+        </Reveal>
+
+        <Reveal>
+          <ul className="mt-12 border-t border-graphite/15 md:mt-16">
+            {capabilities.map((capability) => (
+              <li key={capability.title} className="grid gap-2 border-b border-graphite/15 py-5 md:grid-cols-12 md:gap-8">
+                <h3 className="font-display text-[1.15rem] font-medium md:col-span-3">{capability.title}</h3>
+                <p className="text-[1rem] leading-relaxed text-graphite/80 md:col-span-9">
+                  {capability.body}
+                  {capability.source && (
+                    <>
+                      {" "}
+                      <SourceLink source={capability.source} inline />
+                    </>
+                  )}
+                </p>
+              </li>
+            ))}
+          </ul>
         </Reveal>
 
         <Reveal>
@@ -60,8 +83,7 @@ export function FloridaToday() {
           <RegionExplorer
             regions={regions}
             statewide={statewide}
-            categoryOrder={categoryOrder}
-            categoryLabels={categoryLabels}
+            categoryGroups={categoryGroups}
             labelPoints={Object.fromEntries(Object.entries(regionShapes).map(([id, v]) => [id, v.label]))}
             bounds={floridaBounds}
           >
@@ -134,7 +156,19 @@ export function FloridaHistory() {
 }
 
 
-/* ---------- 03 The opportunity ahead ---------- */
+/* ---------- 03 The opportunity (and why this summit exists) ---------- */
+
+/** The two-part case for the summit, from the planning overview. */
+const opportunityCase = [
+  {
+    title: "Building connections",
+    body: "Bring Florida’s commands, industry, investors, and universities into the same conversations, and link them with the national security community across the country.",
+  },
+  {
+    title: "Inspiring new talent",
+    body: "Show students in engineering, computing, business, policy, and law the many ways they can contribute to national security, and connect them with the people already doing the work.",
+  },
+];
 
 export function FloridaOpportunity() {
   return (
@@ -149,7 +183,12 @@ export function FloridaOpportunity() {
                 {thesis.statement} <span className="text-highlight-300">{thesis.emphasis}</span>
               </>
             }
-            lede="Florida’s strengths line up with national priorities. Stronger links between government, industry, investors, universities, and talent can turn proximity into progress."
+            lede={
+              <>
+                The {site.name} exists to strengthen those connections and to inform and inspire the next generation
+                to join the mission.
+              </>
+            }
           />
         </Reveal>
 
@@ -157,16 +196,23 @@ export function FloridaOpportunity() {
           <div className="lg:col-span-5">
             <ConnectionDiagram />
           </div>
-          <div className="lg:col-span-7">
-            <p className="type-label mb-2 text-bone/70">National priorities · Florida strengths</p>
+          <div className="lg:col-span-6 lg:col-start-7">
             <ul className="border-t border-bone/12">
-              {opportunities.map((item) => (
-                <li key={item.priority} className="grid gap-2 border-b border-bone/12 py-5 sm:grid-cols-2 sm:gap-8">
-                  <p className="font-display text-[1.1rem] font-medium">{item.priority}</p>
-                  <p className="text-[0.98rem] leading-relaxed text-bone/75">{item.strength}</p>
+              {opportunityCase.map((item) => (
+                <li key={item.title} className="border-b border-bone/12 py-6">
+                  <h3 className="font-display text-[1.2rem] font-medium">{item.title}</h3>
+                  <p className="mt-2 text-[1rem] leading-relaxed text-bone/75">{item.body}</p>
                 </li>
               ))}
             </ul>
+            <div className="mt-10 flex flex-col gap-3 sm:flex-row">
+              <ButtonLink href={site.ctas.primary.href} arrow>
+                {site.ctas.primary.label}
+              </ButtonLink>
+              <ButtonLink href="/experience" variant="secondary">
+                The Experience
+              </ButtonLink>
+            </div>
           </div>
         </Reveal>
       </Container>
@@ -226,7 +272,7 @@ function ConnectionDiagram() {
   );
 }
 
-/* ---------- 04 Why this summit exists ---------- */
+/* ---------- Why this summit exists (not rendered; merged into FloridaOpportunity) ---------- */
 
 export function WhyThisSummit() {
   return (
@@ -248,9 +294,11 @@ export function WhyThisSummit() {
             <ButtonLink href={site.ctas.primary.href} arrow>
               {site.ctas.primary.label}
             </ButtonLink>
-            <ButtonLink href="/program" variant="secondary">
-              See the program
-            </ButtonLink>
+            {isPageEnabled("/program") && (
+              <ButtonLink href="/program" variant="secondary">
+                See the program
+              </ButtonLink>
+            )}
           </div>
         </Reveal>
       </Container>
@@ -265,6 +313,7 @@ export function FloridaSources() {
   for (const r of regions) for (const n of r.nodes) all.set(n.source.url, n.source);
   for (const e of history) all.set(e.source.url, e.source);
   for (const st of floridaStats) all.set(st.source.url, st.source);
+  for (const c of capabilities) if (c.source) all.set(c.source.url, c.source);
   for (const node of statewide) all.set(node.source.url, node.source);
   const sources = [...all.values()].sort((a, b) => a.title.localeCompare(b.title));
 

@@ -1,10 +1,10 @@
 import { ImageResponse } from "next/og";
 import { FLORIDA_SILHOUETTE, MARK_STAR } from "@/components/brand/Mark";
 import { site } from "@/content/site";
-import { formatDateRange, getCurrentEdition } from "@/lib/content";
+import { formatEditionDates, getCurrentEdition } from "@/lib/content";
 
 // Link-preview image (LinkedIn, iMessage, Slack…), generated at build time.
-export const alt = `${site.name} — March 26–27, 2027, Gainesville, Florida`;
+export const alt = `${site.name} — ${formatEditionDates(getCurrentEdition())}, Gainesville, Florida`;
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
@@ -30,7 +30,7 @@ export default function OpengraphImage() {
           </div>
           <div style={{ marginTop: 28, fontSize: 32, color: "#B8C3CD" }}>{site.supportingLine}</div>
           <div style={{ marginTop: 44, fontSize: 26, letterSpacing: 4, textTransform: "uppercase", color: "#9FD3FF" }}>
-            {`${formatDateRange(edition.startDate, edition.endDate)} · ${edition.city}, Florida`}
+            {`${formatEditionDates(edition)} · ${edition.city}, Florida`}
           </div>
         </div>
         <svg width="300" height="300" viewBox="0 0 100 100">

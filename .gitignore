@@ -45,3 +45,6 @@ next-env.d.ts
 
 # template only (no secrets)
 !.env.example
+
+# internal planning documents (reference only; never publish)
+/Resources/

@@ -30,8 +30,15 @@ export interface SiteConfig {
   social: { linkedin: string | null };
   /** Where "Join the mailing list" links go (the signup form's #join anchor). */
   mailingList: { href: string; benefits: string[] };
-  /** Announcements not yet live. Remove an entry (or change it) when it launches. */
-  comingSoon: { id: "speakers" | "partners" | "registration"; title: string; body: string }[];
+  /** Announcements not yet live. `show: false` keeps an entry in reserve; remove it when it launches. */
+  comingSoon: ComingSoonItem[];
+}
+
+export interface ComingSoonItem {
+  id: "speakers" | "innovation-expo" | "pitch-competition" | "partners" | "registration";
+  title: string;
+  body: string;
+  show: boolean;
 }
 
 /* ---------- Summit content (copy as data, so it's editable without touching layout) ---------- */
@@ -50,6 +57,31 @@ export interface Lane {
 export interface Audience {
   title: string;
   value: string;
+}
+
+/** One element of the summit experience (The Experience page and homepage). */
+export interface ExperienceElement {
+  /** Anchor id on /experience. */
+  id: string;
+  title: string;
+  body: string;
+  /** Short status tag, e.g. "Proposed". */
+  status?: string;
+}
+
+/** A way to get involved; `href` is a pre-addressed email or an on-page anchor. */
+export interface WayToGetInvolved {
+  title: string;
+  body: string;
+  href: string;
+  action: string;
+}
+
+/** A proposed session (kept for later; hidden while features.detailedProgram is off). */
+export interface ProposedSession {
+  title: string;
+  format: string;
+  question: string;
 }
 
 /* ---------- Organizations & roles ---------- */
@@ -104,6 +136,8 @@ export interface Edition {
   stage: Stage;
   startDate: string;
   endDate: string;
+  /** Dates are not final — shown as "(tentative)" wherever they appear. */
+  datesTentative?: boolean;
   timezone: string;
   city: string;
   state: string;
@@ -173,6 +207,13 @@ export interface EcosystemNode {
   /** One short, factual line. Statistics only with a verified source. */
   description: string;
   source: Source;
+}
+
+/** A Florida strategic capability: one sentence, with a source when it carries a figure. */
+export interface Capability {
+  title: string;
+  body: string;
+  source?: Source;
 }
 
 /** A sourced headline figure. */

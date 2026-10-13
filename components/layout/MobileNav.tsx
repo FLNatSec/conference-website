@@ -6,7 +6,7 @@ import { createPortal } from "react-dom";
 import { Wordmark } from "@/components/brand/Wordmark";
 import { ButtonLink } from "@/components/ui/Button";
 import { site } from "@/content/site";
-import { formatDateRange, getCurrentEdition } from "@/lib/content";
+import { formatEditionDates, getCurrentEdition } from "@/lib/content";
 
 const edition = getCurrentEdition();
 
@@ -99,7 +99,7 @@ export function MobileNav() {
 
             <nav aria-label="Primary" className="flex-1 px-gutter pt-10">
               <ul className="border-t border-bone/12">
-                {site.nav.map((item, i) => (
+                {site.nav.map((item) => (
                   <li key={item.href} className="border-b border-bone/12">
                     <Link
                       href={item.href}
@@ -107,7 +107,6 @@ export function MobileNav() {
                       className="flex items-baseline justify-between py-5 font-display text-[1.9rem] font-medium tracking-tight"
                     >
                       {item.label}
-                      <span className="type-label text-bone/60">{String(i + 1).padStart(2, "0")}</span>
                     </Link>
                   </li>
                 ))}
@@ -124,7 +123,7 @@ export function MobileNav() {
 
             <div className="mt-12 flex flex-wrap items-center justify-between gap-2 border-t border-bone/12 px-gutter py-6 text-bone/55">
               <span className="type-label">
-                {edition.label} · {formatDateRange(edition.startDate, edition.endDate)}
+                {edition.label} · {formatEditionDates(edition)}
               </span>
             </div>
           </div>,

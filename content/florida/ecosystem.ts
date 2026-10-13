@@ -1,4 +1,4 @@
-import type { EcosystemNode, FloridaRegion, FloridaStat, HistoryEra, NodeCategory } from "@/lib/types";
+import type { Capability, EcosystemNode, FloridaRegion, FloridaStat, HistoryEra, NodeCategory } from "@/lib/types";
 
 /*
  * Why Florida — the ecosystem and its history.
@@ -21,18 +21,62 @@ export const categoryLabels: Record<NodeCategory, string> = {
   ports: "Ports",
 };
 
+/**
+ * How the region explorer groups nodes — the same five areas as `capabilities`,
+ * so the introduction and the map tell one story.
+ */
+export const categoryGroups = [
+  { label: "Military & government", categories: ["military"] },
+  { label: "Space & launch", categories: ["space"] },
+  { label: "Industry & investment", categories: ["industry", "innovation"] },
+  { label: "Ports & maritime", categories: ["ports"] },
+  { label: "Universities & research", categories: ["research"] },
+] as const satisfies readonly { label: string; categories: readonly NodeCategory[] }[];
+
+/**
+ * Florida's strategic capabilities — the introduction to "Florida today".
+ * One sentence each on what Florida has and the national priority it serves.
+ * Specific names live in the region explorer, not here.
+ */
+export const capabilities: Capability[] = [
+  {
+    title: "Military",
+    body: "More than 20 major military installations, from weapons test ranges to naval aviation, support joint operations, special operations, and readiness.",
+    source: {
+      title: "Florida Defense Support Commission: Strategic Plan 2025–2030",
+      url: "https://selectflorida.org/wp-content/uploads/FDSTF-Strategic-Plan-2020-2025.pdf",
+    },
+  },
+  {
+    title: "Space",
+    body: "Government and commercial space launches from the Space Coast support assured access to space, satellite resilience, and a growing commercial space sector.",
+  },
+  {
+    title: "Industry & investment",
+    body: "Established defense manufacturers, emerging defense-tech companies, and new private capital strengthen the industrial base and speed technology to the field.",
+  },
+  {
+    title: "Geography",
+    body: "Atlantic and Gulf ports, maritime access, and proximity to the Caribbean and Latin America place Florida at the center of Western Hemisphere security.",
+  },
+  {
+    title: "Education & research",
+    body: "Research universities and a large, multidisciplinary student population bring the engineering, computing, business, and policy talent national security needs.",
+  },
+];
+
 /** Headline figures — each verified against the cited source. */
 export const floridaStats: FloridaStat[] = [
   {
     value: "3 of 11",
     label: "U.S. unified combatant commands headquartered in Florida: Central, Special Operations, and Southern",
-    source: { title: "U.S. Department of Defense — Combatant Commands", url: "https://www.defense.gov/About/Combatant-Commands/" },
+    source: { title: "U.S. Department of Defense: Combatant Commands", url: "https://www.defense.gov/About/Combatant-Commands/" },
   },
   {
     value: "$102.6B",
     label: "Economic impact of Florida’s military and defense industry (2022 data)",
     source: {
-      title: "Florida Defense Support Task Force — 2024 Economic Impact Summary",
+      title: "Florida Defense Support Task Force: 2024 Economic Impact Summary",
       url: "https://www.macdill.af.mil/Portals/26/2024-Florida-Military-and-Defense-Economic-Impact-Summary.pdf",
     },
   },
@@ -40,16 +84,16 @@ export const floridaStats: FloridaStat[] = [
     value: "865,000+",
     label: "Florida jobs supported by military and defense activity (2022 data)",
     source: {
-      title: "Florida Defense Support Task Force — 2024 Economic Impact Summary",
+      title: "Florida Defense Support Task Force: 2024 Economic Impact Summary",
       url: "https://www.macdill.af.mil/Portals/26/2024-Florida-Military-and-Defense-Economic-Impact-Summary.pdf",
     },
   },
   {
-    value: "90",
-    label: "Launches from Florida’s spaceports in 2024 — a state record",
+    value: "109",
+    label: "Launches from Florida’s spaceports in 2025, a state record, carrying more than 2,100 payloads",
     source: {
-      title: "Space Florida",
-      url: "https://www.spaceflorida.gov/news/from-earth-to-orbit-florida-setting-the-standard-for-aerospace-commerce-in-2024-and-the-future",
+      title: "Space Florida: 2025 results",
+      url: "https://spaceflorida.gov/news/space-florida-drives-major-wins-for-the-global-aerospace-industry",
     },
   },
 ];
@@ -92,7 +136,7 @@ export const regions: FloridaRegion[] = [
     name: "North Central Florida",
     anchorId: "gainesville",
     coordinates: [-82.3248, 29.6516],
-    summary: "Gainesville — home of the inaugural summit — with a flagship research university and the Florida National Guard’s premier training site.",
+    summary: "Gainesville, home of the inaugural summit, with a flagship research university and the Florida National Guard’s premier training site.",
     nodes: [
       n("military", "Camp Blanding Joint Training Center", "Starke", "Florida National Guard’s premier training site, about 73,000 acres", "Florida National Guard", "https://fl.ng.mil/Commands/Camp-Blanding-Joint-Training-Center/"),
       n("research", "University of Florida", "Gainesville", "Flagship research university; host of the inaugural summit", "UF", "https://www.ufl.edu/"),
@@ -156,7 +200,7 @@ export const regions: FloridaRegion[] = [
       n("industry", "Honeywell Aerospace", "Clearwater", "Navigation systems for the Air Force under a 15-year DoD contract", "Trade & Industry Development", "https://www.tradeandindustrydev.com/region/florida/news/fl-work-35b-dod-contract-be-done-honeywell-16409"),
       n("research", "University of South Florida & Cyber Florida", "Tampa", "Research university and home of the Florida Center for Cybersecurity", "Cyber Florida", "https://cyberflorida.org/"),
       n("innovation", "SOFWERX", "Ybor City, Tampa", "SOCOM’s open innovation hub linking startups, academia, and operators", "SOF News", "https://sof.news/news/sofwerx/"),
-      n("innovation", "Tampa Bay Wave — DefenseTech|X", "Tampa", "Federally funded accelerator for early-stage defense tech startups", "Tampa Bay Wave", "https://www.tampabaywave.org/defensetechx-accelerator-tampa-bay-wave/"),
+      n("innovation", "Tampa Bay Wave DefenseTech|X", "Tampa", "Federally funded accelerator for early-stage defense tech startups", "Tampa Bay Wave", "https://www.tampabaywave.org/defensetechx-accelerator-tampa-bay-wave/"),
       n("ports", "Port Tampa Bay", "Tampa", "Gulf seaport on Tampa Bay", "Port Tampa Bay", "https://www.porttb.com/"),
     ],
   },
@@ -173,8 +217,9 @@ export const regions: FloridaRegion[] = [
       n("military", "Joint Interagency Task Force South", "Key West", "Interagency task force countering illicit trafficking", "JIATF-South", "https://www.jiatfs.southcom.mil/"),
       n("military", "Naval Air Station Key West", "Key West", "Navy air station for training and operations", "NAS Key West", "https://cnrse.cnic.navy.mil/Installations/NAS-Key-West/"),
       n("military", "Homestead Air Reserve Base", "Homestead", "482nd Fighter Wing, flying F-16s", "Homestead ARB", "https://www.homestead.afrc.af.mil/"),
+      n("industry", "Palantir Technologies", "Miami area", "Defense and intelligence software company; moved its headquarters to the Miami area in 2026", "Bloomberg Law", "https://news.bloomberglaw.com/tech-and-telecom-law/palantir-is-latest-tech-firm-to-move-headquarters-to-miami-3"),
       n("research", "Florida International University", "Miami", "Research university; Gordon Institute for national security policy", "FIU Gordon Institute", "https://gordoninstitute.fiu.edu/"),
-      n("innovation", "Andreessen Horowitz — American Dynamism", "West Palm Beach", "Regional base for a16z’s defense and industrial tech fund", "Commercial Observer", "https://commercialobserver.com/?p=579276"),
+      n("innovation", "Andreessen Horowitz (American Dynamism)", "West Palm Beach", "Regional base for a16z’s defense and industrial tech fund", "Commercial Observer", "https://commercialobserver.com/?p=579276"),
       n("ports", "PortMiami & Port Everglades", "Miami & Fort Lauderdale", "Seaports linked to the Caribbean and Latin America", "PortMiami", "https://www.miamidade.gov/portmiami/"),
     ],
   },
@@ -213,7 +258,7 @@ export const history: HistoryEra[] = [
   {
     year: "1950",
     title: "The first launch from Cape Canaveral",
-    body: "A Bumper rocket lifted off from Cape Canaveral — the first launch from the Cape.",
+    body: "A Bumper rocket lifted off from Cape Canaveral, the first launch from the Cape.",
     regionId: "central",
     source: { title: "NASA", url: "https://www.nasa.gov/" },
   },
@@ -260,18 +305,21 @@ export const history: HistoryEra[] = [
     source: { title: "U.S. Space Force", url: "https://www.spaceforce.mil/" },
   },
   {
-    year: "2024",
+    year: "2025",
     title: "A record year in launch",
-    body: "Florida’s spaceports supported a record 90 launches, as commercial companies joined government missions on the Space Coast.",
+    body: "Florida’s spaceports supported a record 109 launches, the first year above 100, as commercial companies joined government missions on the Space Coast.",
     regionId: "central",
     source: {
-      title: "Space Florida",
-      url: "https://www.spaceflorida.gov/news/from-earth-to-orbit-florida-setting-the-standard-for-aerospace-commerce-in-2024-and-the-future",
+      title: "Space Florida: 2025 results",
+      url: "https://spaceflorida.gov/news/space-florida-drives-major-wins-for-the-global-aerospace-industry",
     },
   },
 ];
 
-/** The opportunity ahead — framed as opportunities, not policy claims. */
+/**
+ * National priorities ↔ Florida strengths. Not rendered: its content now lives
+ * in `capabilities` (the "Florida today" introduction). Kept for reuse.
+ */
 export const opportunities = [
   { priority: "Space security", strength: "Government and commercial launch, spacecraft production, and the Eastern Range" },
   { priority: "Maritime security & the Western Hemisphere", strength: "Southern Command, the Coast Guard, interagency operations, and Atlantic and Gulf ports" },

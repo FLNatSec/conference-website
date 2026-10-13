@@ -22,10 +22,11 @@ export function WhyFloridaPreview({ index = "02" }: { index?: string }) {
             <SectionLabel index={index} title="Why Florida" className="text-bone/70" />
             <Rule draw className="mt-8 mb-10" />
             <h2 className="max-w-[16ch] font-display text-display-m font-medium tracking-[-0.02em]">
-              A statewide national-security ecosystem.
+              Where strategic capabilities and investment converge.
             </h2>
             <p className="mt-6 max-w-[46ch] text-lede text-bone/75">
-              From the Panhandle to the Space Coast to the Keys, Florida brings together capabilities the nation relies on.
+              From the Panhandle to the Space Coast to the Keys, Florida combines critical military, space, industrial, and research
+              capabilities the nation relies on with growing investment in national security innovation.
             </p>
             <ul className="mt-8 flex flex-wrap gap-2">
               {floridaMotifs.map((motif) => (

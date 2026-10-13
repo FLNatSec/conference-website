@@ -30,8 +30,8 @@ const MAP_LABELS: Record<string, { text: string; at: LonLat }> = {
 interface RegionExplorerProps {
   regions: FloridaRegion[];
   statewide: EcosystemNode[];
-  categoryOrder: NodeCategory[];
-  categoryLabels: Record<NodeCategory, string>;
+  /** Display groups, in order; each lists the node categories it collects. */
+  categoryGroups: readonly { label: string; categories: readonly NodeCategory[] }[];
   /** Interior label point per region, in map units. */
   labelPoints: Record<string, readonly [number, number]>;
   /** Florida's padded bounding box in map units — the map is zoomed to it. */
@@ -68,8 +68,7 @@ function balance(groups: Group[]): [Group[], Group[]] {
 export function RegionExplorer({
   regions,
   statewide,
-  categoryOrder,
-  categoryLabels,
+  categoryGroups,
   labelPoints,
   bounds,
   children,
@@ -99,8 +98,8 @@ export function RegionExplorer({
   };
 
   const groups: Group[] = active
-    ? categoryOrder
-        .map((cat) => ({ label: categoryLabels[cat], nodes: active.nodes.filter((n) => n.category === cat) }))
+    ? categoryGroups
+        .map(({ label, categories }) => ({ label, nodes: active.nodes.filter((n) => categories.includes(n.category)) }))
         .filter((g) => g.nodes.length > 0)
     : [];
   const [left, right] = balance(groups);

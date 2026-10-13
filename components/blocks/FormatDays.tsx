@@ -1,7 +1,7 @@
 import { formatDayLabel, getCurrentEdition } from "@/lib/content";
 
 /**
- * The preliminary two-day format from edition.format. High-level elements only —
+ * The preliminary day-by-day format from edition.format. High-level elements only —
  * no times, rooms, session titles, or speakers. Designed for navy surfaces.
  */
 export function FormatDays({ surface = "ink-2" }: { surface?: "ink" | "ink-2" }) {
@@ -10,7 +10,9 @@ export function FormatDays({ surface = "ink-2" }: { surface?: "ink" | "ink-2" })
 
   return (
     <div>
-      <ol className="grid gap-px overflow-hidden border border-bone/12 bg-bone/12 md:grid-cols-2">
+      <ol
+        className={`grid gap-px overflow-hidden border border-bone/12 bg-bone/12 ${edition.format.length === 3 ? "md:grid-cols-3" : "md:grid-cols-2"}`}
+      >
         {edition.format.map((day, i) => (
           <li key={day.date} className={`flex flex-col ${bg} p-7 md:p-10`}>
             <p className="type-label flex items-baseline justify-between text-bone/70">

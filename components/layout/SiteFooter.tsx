@@ -2,7 +2,7 @@ import Link from "next/link";
 import { Wordmark } from "@/components/brand/Wordmark";
 import { Container } from "@/components/ui/Container";
 import { site } from "@/content/site";
-import { formatDateRange, getCurrentEdition, getOrgGroups } from "@/lib/content";
+import { formatEditionDates, getCurrentEdition, getOrgGroups } from "@/lib/content";
 
 /** Footer. Organizer groups render only roles whose public wording is confirmed. */
 export function SiteFooter() {
@@ -75,7 +75,7 @@ export function SiteFooter() {
       <div className="border-t border-bone/10">
         <Container className="flex flex-col gap-3 py-6 text-bone/60 md:flex-row md:items-center md:justify-between">
           <p className="type-label">
-            {edition.label} · {edition.city}, {edition.state} · {formatDateRange(edition.startDate, edition.endDate)}
+            {edition.label} · {edition.city}, {edition.state} · {formatEditionDates(edition)}
           </p>
         </Container>
       </div>

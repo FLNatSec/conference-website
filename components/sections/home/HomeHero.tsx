@@ -3,8 +3,10 @@ import { HeroVideo } from "@/components/media/HeroVideo";
 import { ButtonLink } from "@/components/ui/Button";
 import { Container } from "@/components/ui/Container";
 import { heroVideo } from "@/content/media/hero-video";
+import { features } from "@/content/features";
 import { site } from "@/content/site";
-import { formatDateRange, getCurrentEdition } from "@/lib/content";
+import { heroSummary } from "@/content/summit";
+import { formatEditionDates, getCurrentEdition } from "@/lib/content";
 import { cn } from "@/lib/cn";
 import "./home-hero.css";
 
@@ -25,7 +27,7 @@ interface HomeHeroProps {
  */
 export function HomeHero({ titleVariant = "expanded", taglineStyle = "sans", posterOnly = false }: HomeHeroProps) {
   const edition = getCurrentEdition();
-  const dates = formatDateRange(edition.startDate, edition.endDate);
+  const dates = formatEditionDates(edition);
 
   // Art-directed poster: vertical crop on small screens, 16:9 elsewhere.
   const common = { alt: heroVideo.posterAlt, sizes: "100vw" };
@@ -79,9 +81,12 @@ export function HomeHero({ titleVariant = "expanded", taglineStyle = "sans", pos
           <span aria-hidden="true" className="h-px w-8 bg-bone/35" />
           <span className="text-bone/70">{edition.city}, Florida</span>
         </p>
-        <p className="mt-3 font-mono text-[0.78rem] tracking-[0.14em] text-highlight-300 uppercase">
-          Registration coming soon
-        </p>
+        {features.registration && (
+          <p className="mt-3 font-mono text-[0.78rem] tracking-[0.14em] text-highlight-300 uppercase">
+            Registration coming soon
+          </p>
+        )}
+        <p className="mt-5 max-w-[52ch] text-[1.02rem] leading-relaxed text-bone/80 md:text-[1.08rem]">{heroSummary}</p>
 
         <div className="mt-8 flex flex-col gap-3 sm:flex-row md:mt-10">
           <ButtonLink href={site.ctas.primary.href} arrow>

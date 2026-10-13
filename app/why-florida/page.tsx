@@ -6,16 +6,15 @@ import {
   FloridaOpportunity,
   FloridaSources,
   FloridaToday,
-  WhyThisSummit,
 } from "@/components/sections/why-florida/WhyFloridaSections";
 
 export const metadata: Metadata = {
   title: "Why Florida",
   description:
-    "Florida is a statewide national-security ecosystem — commands, launch, ports, research, industry, and talent. The opportunity is to connect them.",
+    "Florida is a strategic hub for national security: military commands, space, industry, research, and talent across the state. The opportunity is to connect them.",
 };
 
-// Present → past → future → why this summit exists.
+// Present (capabilities + map) → past → the opportunity and why the summit exists.
 export default function WhyFloridaPage() {
   return (
     <>
@@ -23,7 +22,6 @@ export default function WhyFloridaPage() {
       <FloridaToday />
       <FloridaHistory />
       <FloridaOpportunity />
-      <WhyThisSummit />
       <FloridaSources />
       <CtaBand />
     </>

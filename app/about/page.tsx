@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { notFound } from "next/navigation";
 import { CtaBand } from "@/components/blocks/CtaBand";
 import { OrgGroups } from "@/components/blocks/OrgGroups";
 import { PageHero } from "@/components/blocks/PageHero";
@@ -12,7 +13,8 @@ import { TextLink } from "@/components/ui/TextLink";
 import { people } from "@/content/people";
 import { site } from "@/content/site";
 import { mission } from "@/content/summit";
-import { formatDateRange, getCurrentEdition } from "@/lib/content";
+import { formatEditionDates, getCurrentEdition } from "@/lib/content";
+import { features } from "@/content/features";
 
 export const metadata: Metadata = {
   title: "About",
@@ -22,9 +24,11 @@ export const metadata: Metadata = {
 const groupTitles = { advisor: "Advisors", steering: "Steering committee", team: "Planning team" } as const;
 
 export default function AboutPage() {
+  // Hidden while the flag is off (next.config.ts also redirects this URL). See docs/feature-flags.md.
+  if (!features.aboutPage) notFound();
   const edition = getCurrentEdition();
   const facts = [
-    ["Dates", formatDateRange(edition.startDate, edition.endDate)],
+    ["Dates", formatEditionDates(edition)],
     ["Location", `${edition.city}, ${edition.state}`],
     ["Edition", edition.label],
     ["Format", edition.format.map((d) => d.theme).join(" · ")],

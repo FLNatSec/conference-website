@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { notFound } from "next/navigation";
 import { CtaBand } from "@/components/blocks/CtaBand";
 import { OrgGroups } from "@/components/blocks/OrgGroups";
 import { PageHero } from "@/components/blocks/PageHero";
@@ -11,6 +12,7 @@ import { Section } from "@/components/ui/Section";
 import { TextLink } from "@/components/ui/TextLink";
 import { inquiryHref, site } from "@/content/site";
 import { partnerValues } from "@/content/summit";
+import { features } from "@/content/features";
 
 export const metadata: Metadata = {
   title: "Partners",
@@ -20,6 +22,8 @@ export const metadata: Metadata = {
 const partnershipHref = inquiryHref("Partnership inquiry");
 
 export default function PartnersPage() {
+  // Hidden while the flag is off (next.config.ts also redirects this URL). See docs/feature-flags.md.
+  if (!features.partnersPage) notFound();
   return (
     <>
       <PageHero

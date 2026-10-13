@@ -8,13 +8,14 @@ import type { Organization } from "@/lib/types";
  */
 export const organizations = [
   {
-    id: "florida-national-security-club",
-    name: "Florida National Security Club",
+    id: "uf-national-security-club",
+    name: "University of Florida National Security Club",
+    shortName: "UF National Security Club",
     kind: "student-org",
   },
   {
     id: "engineering-innovation-institute",
-    name: "Engineering Innovation Institute",
+    name: "UF Engineering Innovation Institute",
     shortName: "EII",
     kind: "university-unit",
   },
