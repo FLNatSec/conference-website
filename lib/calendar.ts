@@ -1,8 +1,10 @@
 /**
  * "Save the date" calendar invites, built from the current edition so the
- * details live in one place (`invite` in content/editions). The invite covers
- * the main program day; its description names the full summit dates and
- * points to the site.
+ * details live in one place (content/editions). The .ics file holds two events:
+ *   1. the main program day (`invite`: e.g. Friday 8 AM–5 PM) with reminders, and
+ *   2. an all-day banner across the summit dates (startDate–endDate).
+ * The main day comes first, for apps that read only the first event.
+ * Google's "add event" link holds one event, so it adds the main day.
  *
  * Reminders: Apple Calendar keeps every alarm, Outlook usually keeps one, and
  * Google Calendar ignores alarms (its "add event" link cannot carry them).
@@ -40,6 +42,32 @@ function utcStamp(date: string, time: string, timeZone: string) {
   return icsStamp(new Date(asUtc - offsetMinutes(new Date(asUtc), timeZone) * 60_000));
 }
 
+/** "2027-03-25" → "20270325" */
+const compact = (iso: string) => iso.replaceAll("-", "");
+
+/** ISO date plus n days (UTC, no timezone drift). */
+function addDays(iso: string, n: number) {
+  const [y, m, d] = iso.split("-").map(Number);
+  return new Date(Date.UTC(y, m - 1, d + n)).toISOString().slice(0, 10);
+}
+
+/** "08:00" → "8 AM", "17:30" → "5:30 PM" */
+function formatTime(time: string) {
+  const [hh, mm] = time.split(":").map(Number);
+  const hour = hh % 12 || 12;
+  return `${hour}${mm ? `:${String(mm).padStart(2, "0")}` : ""} ${hh < 12 ? "AM" : "PM"}`;
+}
+
+/** Short timezone name on a date, e.g. "EDT". */
+function zoneName(date: string, timeZone: string) {
+  const [y, m, d] = date.split("-").map(Number);
+  return (
+    new Intl.DateTimeFormat("en-US", { timeZone, timeZoneName: "short" })
+      .formatToParts(new Date(Date.UTC(y, m - 1, d, 12)))
+      .find((part) => part.type === "timeZoneName")?.value ?? ""
+  );
+}
+
 /** Days between a date and the same day `months` earlier (e.g. Mar 26 → Jan 26 is 59). */
 function daysInMonthsBefore(date: string, months: number) {
   const [y, m, d] = date.split("-").map(Number);
@@ -50,15 +78,21 @@ export function getSummitEvent(edition: Edition = getCurrentEdition()) {
   const { invite, timezone } = edition;
   const url = new URL("/", siteUrl).toString();
   const location = `${edition.city}, ${edition.state}`;
+  const hours = `${formatTime(invite.start)}–${formatTime(invite.end)} ${zoneName(invite.date, timezone)}`;
   return {
-    uid: `summit-${edition.year}@${siteUrl.hostname}`,
+    uid: `summit-${edition.year}`,
     title: site.name,
     location,
     url,
-    start: utcStamp(invite.date, invite.start, timezone),
-    end: utcStamp(invite.date, invite.end, timezone),
     timezone,
-    description: `Save the date for the ${edition.number === 1 ? "inaugural " : ""}${site.name}, ${formatEditionDates(edition)}, in ${location}. This invite covers the main program on ${formatDayLabel(invite.date, ", ")}. Speakers, program, and updates: ${url}`,
+    description: `Save the date for the ${edition.number === 1 ? "inaugural " : ""}${site.name}, ${formatEditionDates(edition)}, in ${location}. The main program runs ${formatDayLabel(invite.date, ", ")}, ${hours}. Speakers, program, and updates: ${url}`,
+    /** The main program day, as UTC stamps. */
+    main: {
+      start: utcStamp(invite.date, invite.start, timezone),
+      end: utcStamp(invite.date, invite.end, timezone),
+    },
+    /** All-day range across the summit; calendar end dates are exclusive. */
+    days: { start: compact(edition.startDate), end: compact(addDays(edition.endDate, 1)) },
     reminders: invite.remindMonthsBefore.map((months) => ({
       days: daysInMonthsBefore(invite.date, months),
       label: `${site.name} is ${months === 1 ? "one month" : `${months} months`} away`,
@@ -72,7 +106,7 @@ export function googleCalendarHref() {
   const params = new URLSearchParams({
     action: "TEMPLATE",
     text: event.title,
-    dates: `${event.start}/${event.end}`,
+    dates: `${event.main.start}/${event.main.end}`,
     ctz: event.timezone,
     details: event.description,
     location: event.location,
@@ -109,24 +143,28 @@ function fold(line: string) {
 /** The .ics file served at ICS_PATH (Apple Calendar, Outlook, and most other apps). */
 export function summitIcs(now = new Date()) {
   const event = getSummitEvent();
+  const shared = (uid: string) => [
+    `UID:${event.uid}-${uid}@${siteUrl.hostname}`,
+    `DTSTAMP:${icsStamp(now)}`,
+    `LOCATION:${escapeText(event.location)}`,
+    `DESCRIPTION:${escapeText(event.description)}`,
+    `URL:${event.url}`,
+    // A save-the-date shouldn't mark time busy before anyone registers.
+    "TRANSP:TRANSPARENT",
+    "X-MICROSOFT-CDO-BUSYSTATUS:FREE",
+  ];
   const lines = [
     "BEGIN:VCALENDAR",
     "VERSION:2.0",
     `PRODID:-//${site.name}//Save the Date//EN`,
     "CALSCALE:GREGORIAN",
     "METHOD:PUBLISH",
+    // 1. Main program day, with reminders.
     "BEGIN:VEVENT",
-    `UID:${event.uid}`,
-    `DTSTAMP:${icsStamp(now)}`,
-    `DTSTART:${event.start}`,
-    `DTEND:${event.end}`,
-    `SUMMARY:${escapeText(event.title)}`,
-    `LOCATION:${escapeText(event.location)}`,
-    `DESCRIPTION:${escapeText(event.description)}`,
-    `URL:${event.url}`,
-    // A save-the-date shouldn't mark the day busy before anyone registers.
-    "TRANSP:TRANSPARENT",
-    "X-MICROSOFT-CDO-BUSYSTATUS:FREE",
+    ...shared("main"),
+    `DTSTART:${event.main.start}`,
+    `DTEND:${event.main.end}`,
+    `SUMMARY:${escapeText(`${event.title}: Main program`)}`,
     ...event.reminders.flatMap((reminder) => [
       "BEGIN:VALARM",
       "ACTION:DISPLAY",
@@ -134,6 +172,13 @@ export function summitIcs(now = new Date()) {
       `TRIGGER:-P${reminder.days}D`,
       "END:VALARM",
     ]),
+    "END:VEVENT",
+    // 2. All-day banner across the summit dates.
+    "BEGIN:VEVENT",
+    ...shared("days"),
+    `DTSTART;VALUE=DATE:${event.days.start}`,
+    `DTEND;VALUE=DATE:${event.days.end}`,
+    `SUMMARY:${escapeText(event.title)}`,
     "END:VEVENT",
     "END:VCALENDAR",
   ];

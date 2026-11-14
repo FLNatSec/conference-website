@@ -39,7 +39,8 @@ export const edition2027 = {
     },
   ],
 
-  // "Save the date" calendar invite (lib/calendar.ts): the main program day, in local time.
+  // "Save the date" invite (lib/calendar.ts): the main program day, in local time, with reminders.
+  // The .ics file also adds an all-day banner across startDate–endDate.
   invite: { date: "2027-03-26", start: "08:00", end: "17:00", remindMonthsBefore: [2, 1] },
 
   // roleLabel: null = public wording not yet confirmed; hidden from public surfaces.
