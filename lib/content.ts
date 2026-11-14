@@ -66,8 +66,13 @@ export function formatEditionDates(edition: Edition): string {
   return edition.datesTentative ? `${range} (tentative)` : range;
 }
 
-/** "Thursday · March 25" (or "Thursday, March 25" with `separator: ", "`). */
-export function formatDayLabel(iso: string, separator = " · "): string {
+/** "Thursday" */
+export function formatWeekday(iso: string): string {
+  return WEEKDAYS[parts(iso).weekday];
+}
+
+/** "March 25" */
+export function formatMonthDay(iso: string): string {
   const p = parts(iso);
-  return `${WEEKDAYS[p.weekday]}${separator}${MONTHS[p.m]} ${p.d}`;
+  return `${MONTHS[p.m]} ${p.d}`;
 }

@@ -13,7 +13,7 @@ import { TextLink } from "@/components/ui/TextLink";
 import { people } from "@/content/people";
 import { site } from "@/content/site";
 import { mission } from "@/content/summit";
-import { formatEditionDates, getCurrentEdition } from "@/lib/content";
+import { formatEditionDates, formatWeekday, getCurrentEdition } from "@/lib/content";
 import { features } from "@/content/features";
 
 export const metadata: Metadata = {
@@ -31,7 +31,7 @@ export default function AboutPage() {
     ["Dates", formatEditionDates(edition)],
     ["Location", `${edition.city}, ${edition.state}`],
     ["Edition", edition.label],
-    ["Format", edition.format.map((d) => d.theme).join(" · ")],
+    ["Format", edition.format.map((d) => formatWeekday(d.date)).join(" and ")],
   ];
   const groups = (Object.keys(groupTitles) as (keyof typeof groupTitles)[])
     .map((g) => ({ group: g, members: people.filter((p) => p.group === g) }))

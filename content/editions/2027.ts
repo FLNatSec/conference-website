@@ -18,30 +18,25 @@ export const edition2027 = {
   format: [
     {
       date: "2027-03-25",
-      theme: "Connect",
       span: "Afternoon and evening",
       elements: ["Career workshops", "University lab tours", "VIP dinner for speakers and sponsors"],
     },
     {
       date: "2027-03-26",
-      theme: "Convene",
       span: "Full day",
       elements: [
-        "Networking breakfast",
-        "Opening keynote",
-        "Panels and fireside conversations",
+        "Keynotes, panels, and fireside conversations",
         "Innovation Expo, all day",
-        "Networking lunch",
+        "Networking breakfast and lunch",
         "Pitch competition",
-        "Closing conversation",
         "Evening reception and happy hour",
       ],
     },
   ],
 
-  // "Save the date" invite (lib/calendar.ts): the main program day, in local time, with reminders.
-  // The .ics file also adds an all-day banner across startDate–endDate.
-  invite: { date: "2027-03-26", start: "08:00", end: "17:00", remindMonthsBefore: [2, 1] },
+  // "Save the date" invite (lib/calendar.ts): an all-day event across startDate–endDate,
+  // with reminders the given months before the first day, at reminderTime (local).
+  invite: { remindMonthsBefore: [2, 1], reminderTime: "09:00" },
 
   // roleLabel: null = public wording not yet confirmed; hidden from public surfaces.
   orgRoles: [

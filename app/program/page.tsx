@@ -15,7 +15,7 @@ import { features } from "@/content/features";
 export const metadata: Metadata = {
   title: "Program",
   description:
-    "Two days — Connect and Convene — organized around five lanes: strategy, innovation, operations, industry, and people. The detailed program will be announced.",
+    "Two days organized around five lanes: strategy, innovation, operations, industry, and people. The detailed program will be announced.",
 };
 
 export default function ProgramPage() {

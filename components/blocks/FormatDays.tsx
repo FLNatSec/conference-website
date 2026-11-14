@@ -1,4 +1,4 @@
-import { formatDayLabel, getCurrentEdition } from "@/lib/content";
+import { formatMonthDay, formatWeekday, getCurrentEdition } from "@/lib/content";
 
 /**
  * The day-by-day format from edition.format. High-level elements only: no
@@ -16,11 +16,11 @@ export function FormatDays({ surface = "ink-2" }: { surface?: "ink" | "ink-2" })
         {edition.format.map((day, i) => (
           <li key={day.date} className={`flex flex-col ${bg} p-7 md:p-10`}>
             <p className="type-label flex items-baseline justify-between text-bone/70">
-              <span>{formatDayLabel(day.date)}</span>
+              <span>{formatMonthDay(day.date)}</span>
               <span className="text-bone/60">{day.span ?? `Day ${i + 1}`}</span>
             </p>
             <p className="type-expanded mt-6 font-display text-[clamp(2rem,1.1rem+2.4vw,3.25rem)] leading-none font-semibold uppercase">
-              {day.theme}
+              {formatWeekday(day.date)}
             </p>
             <ul className="mt-8 border-t border-bone/12">
               {day.elements.map((element) => (
