@@ -1,0 +1,22 @@
+/*
+ * "Save the date" menu (SaveTheDate.tsx). A native popover: by default the
+ * browser centers it on screen, which is the fallback. With CSS anchor
+ * positioning it drops below its button instead, flipping when space runs out.
+ */
+
+.std-menu::backdrop {
+  background: color-mix(in oklab, var(--color-ink-deep) 55%, transparent);
+}
+
+@supports (position-area: bottom) {
+  .std-menu {
+    inset: auto;
+    margin: 0.5rem 0 0;
+    position-area: bottom span-right;
+    position-try-fallbacks: flip-block, flip-inline;
+  }
+
+  .std-menu::backdrop {
+    background: transparent;
+  }
+}

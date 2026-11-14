@@ -4,6 +4,7 @@ import { CtaBand } from "@/components/blocks/CtaBand";
 import { ExperienceGrid } from "@/components/blocks/ExperienceGrid";
 import { FormatDays } from "@/components/blocks/FormatDays";
 import { PageHero } from "@/components/blocks/PageHero";
+import { SaveTheDate } from "@/components/blocks/SaveTheDate";
 import { SectionHeader } from "@/components/blocks/SectionHeader";
 import { Reveal } from "@/components/motion/Reveal";
 import { ButtonLink } from "@/components/ui/Button";
@@ -12,15 +13,17 @@ import { Section } from "@/components/ui/Section";
 import { features } from "@/content/features";
 import { heroVideo } from "@/content/media/hero-video";
 import { inquiryHref } from "@/content/site";
-import { discussionThemes, discussionTopics, experience, proposedSessions } from "@/content/summit";
+import { discussionThemes, discussionTopics, experience, proposedSessions, schedule } from "@/content/summit";
+import { formatEditionDates, getCurrentEdition } from "@/lib/content";
 
 export const metadata: Metadata = {
   title: "The Experience",
   description:
-    "Expert conversations, the National Security Innovation Expo, a pitch competition, and intentional networking. Final speakers, sessions, and schedules will be announced as they are confirmed.",
+    "Two days in Gainesville: workshops and a VIP dinner, then expert conversations, the National Security Innovation Expo, a pitch competition, and an evening reception. Final speakers, sessions, and times will be announced as they are confirmed.",
 };
 
 export default function ExperiencePage() {
+  const edition = getCurrentEdition();
   return (
     <>
       <PageHero
@@ -46,7 +49,21 @@ export default function ExperiencePage() {
         </Container>
       </Section>
 
-      <Section tone="ink-2">
+      <Section tone="ink-2" id="schedule" className="scroll-mt-16">
+        <Container>
+          <Reveal>
+            <SectionHeader label={formatEditionDates(edition)} heading={schedule.heading} lede={schedule.lede} />
+            <div className="mt-12 md:mt-16">
+              <FormatDays />
+            </div>
+            <div className="mt-10">
+              <SaveTheDate id="experience" />
+            </div>
+          </Reveal>
+        </Container>
+      </Section>
+
+      <Section tone="ink">
         <Container>
           <Reveal className="grid gap-12 lg:grid-cols-12 lg:gap-8">
             <div className="lg:col-span-5">
@@ -78,16 +95,13 @@ export default function ExperiencePage() {
                   </li>
                 ))}
               </ol>
-              <div className="mt-16">
-                <FormatDays />
-              </div>
             </div>
           )}
         </Container>
       </Section>
 
       {features.comingSoon && (
-        <Section tone="ink" spacing="compact">
+        <Section tone="ink-2" spacing="compact">
           <Container>
             <Reveal>
               <SectionHeader label="Coming soon" heading="Announcements on the way." />

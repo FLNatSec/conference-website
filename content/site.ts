@@ -1,4 +1,5 @@
 import { features, isPageEnabled } from "@/content/features";
+import { formatEditionDates, getCurrentEdition } from "@/lib/content";
 import type { NavItem, SiteConfig } from "@/lib/types";
 
 const email = "flnatsecsummit@gmail.com";
@@ -25,8 +26,7 @@ export const site = {
   supportingLine: "Uniting strategy, technology, and talent.",
   tagline: "The State of National Security",
 
-  description:
-    "A student-led summit bringing together students and leaders from government, the military, industry, investment, and academia across Florida and the nation. Inaugural summit: March 25–27, 2027, Gainesville, Florida.",
+  description: `A student-led summit bringing together students and leaders from government, the military, industry, investment, and academia across Florida and the nation. Inaugural summit: ${formatEditionDates(getCurrentEdition())}, Gainesville, Florida.`,
 
   nav: allNav.filter((item) => isPageEnabled(item.href)),
 

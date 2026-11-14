@@ -163,9 +163,15 @@ export const experience: { heading: string; lede: string; status: string; elemen
     {
       id: "networking",
       title: "Networking & Engagement",
-      body: "Time for students, speakers, sponsors, researchers, and organizations to connect, potentially including tours, workshops, and receptions.",
+      body: "Time for students, speakers, sponsors, researchers, and organizations to connect, through workshops, lab tours, shared meals, and an evening reception.",
     },
   ],
+};
+
+/** The two days on /experience. The days themselves are edition data (content/editions). */
+export const schedule = {
+  heading: "Two days in Gainesville.",
+  lede: "Thursday afternoon opens with workshops and a VIP dinner for speakers and sponsors. Friday brings the full program, from the opening keynote to the evening reception.",
 };
 
 /** Tentative themes and example topics for /experience (not official tracks). */

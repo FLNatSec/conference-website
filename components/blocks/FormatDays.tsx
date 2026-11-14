@@ -1,8 +1,8 @@
 import { formatDayLabel, getCurrentEdition } from "@/lib/content";
 
 /**
- * The preliminary day-by-day format from edition.format. High-level elements only —
- * no times, rooms, session titles, or speakers. Designed for navy surfaces.
+ * The day-by-day format from edition.format. High-level elements only: no
+ * times, rooms, session titles, or speakers. Designed for navy surfaces.
  */
 export function FormatDays({ surface = "ink-2" }: { surface?: "ink" | "ink-2" }) {
   const edition = getCurrentEdition();
@@ -17,7 +17,7 @@ export function FormatDays({ surface = "ink-2" }: { surface?: "ink" | "ink-2" })
           <li key={day.date} className={`flex flex-col ${bg} p-7 md:p-10`}>
             <p className="type-label flex items-baseline justify-between text-bone/70">
               <span>{formatDayLabel(day.date)}</span>
-              <span className="text-bone/60">Day {String(i + 1).padStart(2, "0")}</span>
+              <span className="text-bone/60">{day.span ?? `Day ${i + 1}`}</span>
             </p>
             <p className="type-expanded mt-6 font-display text-[clamp(2rem,1.1rem+2.4vw,3.25rem)] leading-none font-semibold uppercase">
               {day.theme}
@@ -34,7 +34,7 @@ export function FormatDays({ surface = "ink-2" }: { surface?: "ink" | "ink-2" })
         ))}
       </ol>
       <p className="mt-5 text-sm text-bone/60">
-        Preliminary format. The detailed program — sessions, speakers, and times — will be announced to the mailing list.
+        Preliminary format. Speakers, sessions, and times will be announced as they are confirmed.
       </p>
     </div>
   );

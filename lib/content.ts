@@ -51,7 +51,7 @@ function parts(iso: string) {
   return { y, m: m - 1, d, weekday: new Date(Date.UTC(y, m - 1, d)).getUTCDay() };
 }
 
-/** "March 26–27, 2027" (handles cross-month and cross-year ranges). */
+/** "March 25–26, 2027" (handles cross-month and cross-year ranges). */
 export function formatDateRange(start: string, end: string): string {
   const a = parts(start);
   const b = parts(end);
@@ -60,14 +60,14 @@ export function formatDateRange(start: string, end: string): string {
   return `${MONTHS[a.m]} ${a.d}, ${a.y} – ${MONTHS[b.m]} ${b.d}, ${b.y}`;
 }
 
-/** The edition's dates as shown publicly: "March 25–27, 2027 (tentative)". */
+/** The edition's dates as shown publicly: "March 25–26, 2027 (tentative)". */
 export function formatEditionDates(edition: Edition): string {
   const range = formatDateRange(edition.startDate, edition.endDate);
   return edition.datesTentative ? `${range} (tentative)` : range;
 }
 
-/** "Friday · March 26" */
-export function formatDayLabel(iso: string): string {
+/** "Thursday · March 25" (or "Thursday, March 25" with `separator: ", "`). */
+export function formatDayLabel(iso: string, separator = " · "): string {
   const p = parts(iso);
-  return `${WEEKDAYS[p.weekday]} · ${MONTHS[p.m]} ${p.d}`;
+  return `${WEEKDAYS[p.weekday]}${separator}${MONTHS[p.m]} ${p.d}`;
 }

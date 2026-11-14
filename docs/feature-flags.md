@@ -27,7 +27,7 @@ and removes the redirect.
 
 | Flag | Default | Controls |
 |---|---|---|
-| `detailedProgram` | off | Homepage program preview; on `/experience`, the proposed sessions and day-by-day format (data: `proposedSessions` in `content/summit.ts`, `format` in `content/editions/2027.ts`) |
+| `detailedProgram` | off | Homepage program preview and, on `/experience`, the proposed sessions (data: `proposedSessions` in `content/summit.ts`). The two-day outline on `/experience` is always shown (data: `format` in `content/editions/2027.ts`). |
 | `speakers` | off | Reserved for a speaker grid and bios (not built yet) |
 | `sponsors` | off | Homepage organizers section and the "Partners" coming-soon card; reserved for sponsor logos and tiers (not built yet) |
 | `registration` | off | Hero "Registration coming soon" line, the "Registration updates" mailing-list benefit, and the "Registration" coming-soon card |

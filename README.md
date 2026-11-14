@@ -1,6 +1,6 @@
 # Florida National Security Summit — website
 
-The website for the Florida National Security Summit, a statewide summit convening Florida's national-security ecosystem. The inaugural summit is planned for March 25–27, 2027, in Gainesville, Florida.
+The website for the Florida National Security Summit, a statewide summit convening Florida's national-security ecosystem. The inaugural summit is planned for March 25–26, 2027, in Gainesville, Florida.
 
 Built with Next.js 16 (App Router), React 19, TypeScript, and Tailwind CSS v4. Deployed on Vercel.
 

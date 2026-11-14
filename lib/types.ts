@@ -124,8 +124,21 @@ export interface FormatDay {
   date: string;
   /** One-word framing, e.g. "Connect". */
   theme: string;
+  /** Part of the day the program runs, e.g. "Afternoon and evening". */
+  span?: string;
   /** High-level elements only — no times, rooms, session titles, or speakers. */
   elements: string[];
+}
+
+/** The "Save the date" calendar invite. */
+export interface CalendarInvite {
+  /** ISO date the invite covers, e.g. the main program day. */
+  date: string;
+  /** Local wall-clock times ("HH:MM") in the edition's timezone. */
+  start: string;
+  end: string;
+  /** Reminders, in months before the start (Apple Calendar and Outlook; Google ignores them). */
+  remindMonthsBefore: number[];
 }
 
 export interface Edition {
@@ -144,6 +157,7 @@ export interface Edition {
   coordinates: LonLat;
   /** Preliminary, high-level format. Editable; never presented as a final agenda. */
   format: FormatDay[];
+  invite: CalendarInvite;
   orgRoles: EditionOrgRole[];
 }
 

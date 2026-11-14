@@ -37,7 +37,7 @@ export default function ProgramPage() {
               label="Format"
               meta="Preliminary"
               heading="Two days. One statewide network."
-              lede="Friday is for connection — tours, workshops, careers, and innovation. Saturday convenes the full summit."
+              lede="Thursday afternoon is for workshops, lab tours, and a VIP dinner. Friday convenes the full summit."
             />
             <div className="mt-14 md:mt-20">
               <FormatDays />

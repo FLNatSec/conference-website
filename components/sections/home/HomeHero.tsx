@@ -1,4 +1,5 @@
 import { getImageProps } from "next/image";
+import { SaveTheDate } from "@/components/blocks/SaveTheDate";
 import { HeroVideo } from "@/components/media/HeroVideo";
 import { ButtonLink } from "@/components/ui/Button";
 import { Container } from "@/components/ui/Container";
@@ -76,11 +77,15 @@ export function HomeHero({ titleVariant = "expanded", taglineStyle = "sans", pos
           {site.supportingLine}
         </p>
 
-        <p className="mt-6 flex flex-wrap items-center gap-x-4 gap-y-2 font-mono text-[0.82rem] tracking-[0.14em] text-bone uppercase md:mt-8">
-          <time dateTime={edition.startDate}>{dates}</time>
+        <div className="mt-6 flex flex-wrap items-center gap-x-4 gap-y-3 font-mono text-[0.82rem] tracking-[0.14em] text-bone uppercase md:mt-8">
+          <time dateTime={edition.startDate} className="whitespace-nowrap">
+            {dates}
+          </time>
           <span aria-hidden="true" className="h-px w-8 bg-bone/35" />
-          <span className="text-bone/70">{edition.city}, Florida</span>
-        </p>
+          <span className="whitespace-nowrap text-bone/70">{edition.city}, Florida</span>
+          <span aria-hidden="true" className="hidden h-px w-8 bg-bone/35 sm:block" />
+          <SaveTheDate id="hero" variant="inline" />
+        </div>
         {features.registration && (
           <p className="mt-3 font-mono text-[0.78rem] tracking-[0.14em] text-highlight-300 uppercase">
             Registration coming soon
