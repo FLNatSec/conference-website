@@ -4,7 +4,10 @@
  */
 import { currentEditionYear, editions } from "@/content/editions";
 import { organizations } from "@/content/organizations";
-import type { Edition, Organization } from "@/lib/types";
+import { people } from "@/content/people";
+import { speakers } from "@/content/speakers";
+import { sponsorTiers } from "@/content/sponsorship";
+import type { Edition, Organization, Person, Speaker, SponsorTier } from "@/lib/types";
 
 export function getCurrentEdition(): Edition {
   const edition = editions.find((e) => e.year === currentEditionYear);
@@ -75,4 +78,58 @@ export function formatWeekday(iso: string): string {
 export function formatMonthDay(iso: string): string {
   const p = parts(iso);
   return `${MONTHS[p.m]} ${p.d}`;
+}
+
+/** "January 11, 2027" */
+export function formatLongDate(iso: string): string {
+  const p = parts(iso);
+  return `${MONTHS[p.m]} ${p.d}, ${p.y}`;
+}
+
+/** "07:30" → "7:30 AM" */
+export function formatTime(time: string): string {
+  const [h, m] = time.split(":").map(Number);
+  return `${h % 12 || 12}:${String(m).padStart(2, "0")} ${h < 12 ? "AM" : "PM"}`;
+}
+
+/** "7:30 AM – 5:00 PM", or just the start when there is no end. */
+export function formatTimeRange(start: string, end?: string): string {
+  return end ? `${formatTime(start)} – ${formatTime(end)}` : formatTime(start);
+}
+
+/** "J. Wayne Reitz Union, University of Florida, Gainesville, Florida" (city and state only, without a venue). */
+export function formatLocation(edition: Edition): string {
+  const { venue, city, state } = edition;
+  return [venue?.name, venue?.campus, city, state].filter(Boolean).join(", ");
+}
+
+/** Confirmed speakers, keynotes first, otherwise in data order. */
+export function getSpeakers(): Speaker[] {
+  return [...speakers].sort((a, b) => Number(b.keynote ?? false) - Number(a.keynote ?? false));
+}
+
+export function getSpeaker(id: string): Speaker {
+  const speaker = speakers.find((s) => s.id === id);
+  if (!speaker) throw new Error(`Unknown speaker id "${id}" — add it to content/speakers.ts`);
+  return speaker;
+}
+
+export function getPeople(group: Person["group"]): Person[] {
+  return people.filter((p) => p.group === group);
+}
+
+export interface SponsorGroup {
+  tier: SponsorTier;
+  organizations: Organization[];
+}
+
+/** Confirmed sponsors grouped by tier, highest tier first. Tiers without sponsors are left out. */
+export function getSponsorGroups(edition: Edition): SponsorGroup[] {
+  const confirmed = edition.sponsors ?? [];
+  return sponsorTiers
+    .map((tier) => ({
+      tier,
+      organizations: confirmed.filter((s) => s.tierId === tier.id).map((s) => getOrganization(s.orgId)),
+    }))
+    .filter((group) => group.organizations.length > 0);
 }

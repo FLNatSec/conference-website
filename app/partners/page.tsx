@@ -5,12 +5,15 @@ import { OrgGroups } from "@/components/blocks/OrgGroups";
 import { PageHero } from "@/components/blocks/PageHero";
 import { PillarGrid } from "@/components/blocks/PillarGrid";
 import { SectionHeader } from "@/components/blocks/SectionHeader";
+import { SponsorTiers } from "@/components/blocks/SponsorTiers";
+import { hasSponsors, SponsorWall } from "@/components/blocks/SponsorWall";
 import { Reveal } from "@/components/motion/Reveal";
 import { ButtonLink } from "@/components/ui/Button";
 import { Container } from "@/components/ui/Container";
 import { Section } from "@/components/ui/Section";
 import { TextLink } from "@/components/ui/TextLink";
 import { inquiryHref, site } from "@/content/site";
+import { sponsorship } from "@/content/sponsorship";
 import { partnerValues } from "@/content/summit";
 import { features } from "@/content/features";
 
@@ -47,6 +50,19 @@ export default function PartnersPage() {
         </Container>
       </Section>
 
+      {features.sponsorTiers && (
+        <Section tone="ink" id="sponsorship" className="scroll-mt-16">
+          <Container>
+            <Reveal>
+              <SectionHeader label="Sponsorship" heading={sponsorship.heading} lede={sponsorship.lede} />
+              <div className="mt-12 md:mt-16">
+                <SponsorTiers />
+              </div>
+            </Reveal>
+          </Container>
+        </Section>
+      )}
+
       <Section tone="paper">
         <Container>
           <Reveal>
@@ -60,6 +76,11 @@ export default function PartnersPage() {
             <div className="mt-12">
               <OrgGroups />
             </div>
+            {hasSponsors() && (
+              <div className="mt-12">
+                <SponsorWall />
+              </div>
+            )}
           </Reveal>
         </Container>
       </Section>

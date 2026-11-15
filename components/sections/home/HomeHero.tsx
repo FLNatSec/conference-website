@@ -4,10 +4,9 @@ import { HeroVideo } from "@/components/media/HeroVideo";
 import { ButtonLink } from "@/components/ui/Button";
 import { Container } from "@/components/ui/Container";
 import { heroVideo } from "@/content/media/hero-video";
-import { features } from "@/content/features";
 import { site } from "@/content/site";
 import { heroSummary } from "@/content/summit";
-import { formatEditionDates, getCurrentEdition } from "@/lib/content";
+import { formatEditionDates, formatLongDate, getCurrentEdition } from "@/lib/content";
 import { cn } from "@/lib/cn";
 import "./home-hero.css";
 
@@ -29,6 +28,7 @@ interface HomeHeroProps {
 export function HomeHero({ titleVariant = "expanded", taglineStyle = "sans", posterOnly = false }: HomeHeroProps) {
   const edition = getCurrentEdition();
   const dates = formatEditionDates(edition);
+  const { admission } = edition;
 
   // Art-directed poster: vertical crop on small screens, 16:9 elsewhere.
   const common = { alt: heroVideo.posterAlt, sizes: "100vw" };
@@ -86,9 +86,10 @@ export function HomeHero({ titleVariant = "expanded", taglineStyle = "sans", pos
           <span aria-hidden="true" className="hidden h-px w-8 bg-bone/35 sm:block" />
           <SaveTheDate id="hero" variant="inline" />
         </div>
-        {features.registration && (
-          <p className="mt-3 font-mono text-[0.78rem] tracking-[0.14em] text-highlight-300 uppercase">
-            Registration coming soon
+        {admission && (
+          <p className="mt-3 font-mono text-[0.78rem] leading-relaxed tracking-[0.14em] text-highlight-300 uppercase">
+            {admission.label}
+            {admission.registrationOpens && ` · Registration opens ${formatLongDate(admission.registrationOpens)}`}
           </p>
         )}
         <p className="mt-5 max-w-[52ch] text-[1.02rem] leading-relaxed text-bone/80 md:text-[1.08rem]">{heroSummary}</p>

@@ -8,7 +8,7 @@
  * cannot include reminders; those calendars apply the person's own defaults.
  */
 import { site } from "@/content/site";
-import { formatEditionDates, getCurrentEdition } from "@/lib/content";
+import { formatEditionDates, formatLocation, getCurrentEdition } from "@/lib/content";
 import { siteUrl } from "@/lib/site-url";
 import type { Edition } from "@/lib/types";
 
@@ -51,13 +51,13 @@ function reminderTrigger(days: number, time: string) {
 
 export function getSummitEvent(edition: Edition = getCurrentEdition()) {
   const url = new URL("/", siteUrl).toString();
-  const location = `${edition.city}, ${edition.state}`;
+  const location = formatLocation(edition);
   return {
     uid: `summit-${edition.year}@${siteUrl.hostname}`,
     title: site.name,
     location,
     url,
-    description: `Save the date for the ${edition.number === 1 ? "inaugural " : ""}${site.name}, ${formatEditionDates(edition)}, in ${location}. Speakers, program, and updates: ${url}`,
+    description: `Save the date for the ${edition.number === 1 ? "inaugural " : ""}${site.name}, ${formatEditionDates(edition)}, ${location}. Speakers, program, and updates: ${url}`,
     startDate: edition.startDate,
     endDate: edition.endDate,
     /** Calendar end dates for all-day events are exclusive: the day after the last day. */

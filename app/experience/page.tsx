@@ -6,11 +6,12 @@ import { FormatDays } from "@/components/blocks/FormatDays";
 import { PageHero } from "@/components/blocks/PageHero";
 import { SaveTheDate } from "@/components/blocks/SaveTheDate";
 import { SectionHeader } from "@/components/blocks/SectionHeader";
+import { hasSpeakers, SpeakerGrid } from "@/components/blocks/SpeakerGrid";
 import { Reveal } from "@/components/motion/Reveal";
 import { ButtonLink } from "@/components/ui/Button";
 import { Container } from "@/components/ui/Container";
 import { Section } from "@/components/ui/Section";
-import { features } from "@/content/features";
+import { features, isPageEnabled } from "@/content/features";
 import { heroVideo } from "@/content/media/hero-video";
 import { inquiryHref } from "@/content/site";
 import { discussionThemes, discussionTopics, experience, proposedSessions, schedule } from "@/content/summit";
@@ -19,7 +20,7 @@ import { formatEditionDates, getCurrentEdition } from "@/lib/content";
 export const metadata: Metadata = {
   title: "The Experience",
   description:
-    "Two days in Gainesville: workshops and a VIP dinner, then expert conversations, the National Security Innovation Expo, a pitch competition, and an evening reception. Final speakers, sessions, and times will be announced as they are confirmed.",
+    "Two days in Gainesville: workshops and a VIP dinner, then expert conversations, the National Security Innovation Expo, and an evening reception. Free and open to all. Final speakers, sessions, and times will be announced as they are confirmed.",
 };
 
 export default function ExperiencePage() {
@@ -56,7 +57,12 @@ export default function ExperiencePage() {
             <div className="mt-12 md:mt-16">
               <FormatDays />
             </div>
-            <div className="mt-10">
+            <div className="mt-10 flex flex-wrap items-center gap-x-8 gap-y-5">
+              {isPageEnabled("/program") && (
+                <ButtonLink href="/program" arrow>
+                  See the full program
+                </ButtonLink>
+              )}
               <SaveTheDate id="experience" />
             </div>
           </Reveal>
@@ -99,6 +105,19 @@ export default function ExperiencePage() {
           )}
         </Container>
       </Section>
+
+      {hasSpeakers() && (
+        <Section tone="ink-2" id="speakers" className="scroll-mt-16">
+          <Container>
+            <Reveal>
+              <SectionHeader label="Speakers" heading="Who you’ll hear from." lede="More speakers will be announced as they are confirmed." />
+              <div className="mt-12 md:mt-16">
+                <SpeakerGrid />
+              </div>
+            </Reveal>
+          </Container>
+        </Section>
+      )}
 
       {features.comingSoon && (
         <Section tone="ink-2" spacing="compact">

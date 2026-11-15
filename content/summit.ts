@@ -1,4 +1,5 @@
 import { inquiryHref } from "@/content/site";
+import { formatLongDate, getCurrentEdition } from "@/lib/content";
 import type { Audience, ExperienceElement, Lane, Pillar, ProposedSession, WayToGetInvolved } from "@/lib/types";
 
 /*
@@ -9,9 +10,9 @@ import type { Audience, ExperienceElement, Lane, Pillar, ProposedSession, WayToG
 export const mission =
   "To connect Florida’s national security ecosystem with leaders, organizations, and ideas from across the country, aligning capabilities with national priorities, fostering collaboration, and inspiring the next generation of national security leaders.";
 
-/** One sentence under the hero title: who is coming together. */
+/** One sentence under the hero title: what the summit is and who is coming together. */
 export const heroSummary =
-  "Bringing together students and leaders from government, the military, industry, investment, and academia across Florida and the nation to foster collaboration and inspire the next generation.";
+  "Two days of keynotes, panels, workshops, and an innovation expo at the University of Florida, bringing together students and leaders from government, the military, industry, investment, and academia.";
 
 /** Homepage "What is the summit". The mission appears here as the two-part `dualMission`. */
 export const about = {
@@ -20,6 +21,7 @@ export const about = {
   body: "Organized by the University of Florida National Security Club, the inaugural Florida National Security Summit brings together students and established leaders to explore national security challenges, build partnerships, and create opportunities for the next generation. Rooted in Florida’s strategic capabilities, the Summit connects the state’s growing national security ecosystem with expertise and ideas from across the country.",
   /** Shown only when features.anticipatedAttendance is on. */
   attendance: "Approximately 200–300 attendees are anticipated.",
+  /** Shown only when features.statewideVision is on. */
   vision:
     "Grow into an annual, statewide conference that rotates among Florida’s universities and draws leading voices from across the national security community.",
   dualMission: [
@@ -158,7 +160,8 @@ export const experience: { heading: string; lede: string; status: string; elemen
     {
       id: "pitch",
       title: "Pitch Competition",
-      body: "A competition for students and early-stage ventures tackling national security challenges, judged by leaders from government, industry, and investment.",
+      status: "To be confirmed",
+      body: "A proposed competition for students and early-stage ventures tackling national security challenges, judged by leaders from government, industry, and investment.",
     },
     {
       id: "networking",
@@ -226,6 +229,16 @@ export const additionalTopics = [
 
 /* ---------- Get involved ---------- */
 
+const { admission } = getCurrentEdition();
+/** "Attend": cost, who can come, and when registration opens, from the edition's `admission`. */
+const attendBody = [
+  admission?.detail,
+  admission?.registrationOpens && `Registration opens ${formatLongDate(admission.registrationOpens)}.`,
+  "Join the mailing list to hear when it opens, along with speaker and program news.",
+]
+  .filter(Boolean)
+  .join(" ");
+
 export const waysToGetInvolved: WayToGetInvolved[] = [
   {
     title: "Speak or join as a guest",
@@ -241,13 +254,13 @@ export const waysToGetInvolved: WayToGetInvolved[] = [
   },
   {
     title: "Exhibit or support innovation",
-    body: "Show research, prototypes, or a startup at the Innovation Expo, or help support the proposed pitch competition.",
+    body: "Show research, prototypes, or a startup at the Innovation Expo, or tell us you’d like to take part in the proposed pitch competition.",
     href: inquiryHref("Innovation Expo / Pitch Competition interest"),
     action: "Express interest",
   },
   {
-    title: "Attend and stay updated",
-    body: "Join the mailing list for speaker announcements, program news, and attendance details.",
+    title: "Attend",
+    body: attendBody,
     href: "#join",
     action: "Join the mailing list",
   },

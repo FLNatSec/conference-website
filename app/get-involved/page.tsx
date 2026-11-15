@@ -2,15 +2,21 @@ import type { Metadata } from "next";
 import { CtaBand } from "@/components/blocks/CtaBand";
 import { OrgGroups } from "@/components/blocks/OrgGroups";
 import { PageHero } from "@/components/blocks/PageHero";
+import { PeopleList } from "@/components/blocks/PeopleList";
 import { PillarGrid } from "@/components/blocks/PillarGrid";
 import { SectionHeader } from "@/components/blocks/SectionHeader";
+import { SponsorTiers } from "@/components/blocks/SponsorTiers";
+import { hasSponsors, SponsorWall } from "@/components/blocks/SponsorWall";
 import { WaysToGetInvolved } from "@/components/blocks/WaysToGetInvolved";
 import { Reveal } from "@/components/motion/Reveal";
 import { ButtonLink } from "@/components/ui/Button";
 import { Container } from "@/components/ui/Container";
 import { Section } from "@/components/ui/Section";
+import { features } from "@/content/features";
 import { site } from "@/content/site";
+import { sponsorship } from "@/content/sponsorship";
 import { partnerValues } from "@/content/summit";
+import { getPeople } from "@/lib/content";
 
 export const metadata: Metadata = {
   title: "Get Involved",
@@ -56,6 +62,19 @@ export default function GetInvolvedPage() {
         </Container>
       </Section>
 
+      {features.sponsorTiers && (
+        <Section tone="ink" id="sponsorship" className="scroll-mt-16">
+          <Container>
+            <Reveal>
+              <SectionHeader label="Sponsorship" heading={sponsorship.heading} lede={sponsorship.lede} />
+              <div className="mt-12 md:mt-16">
+                <SponsorTiers />
+              </div>
+            </Reveal>
+          </Container>
+        </Section>
+      )}
+
       <Section tone="paper">
         <Container>
           <Reveal>
@@ -63,11 +82,22 @@ export default function GetInvolvedPage() {
               tone="paper"
               label="Who’s behind the summit"
               heading="Led by students, built to grow."
-              lede="The summit is led by the University of Florida National Security Club, with the UF Engineering Innovation Institute and UF IEEE as partners. Over time, the vision is a statewide conference that rotates among universities across Florida."
+              lede={`The summit is led by the University of Florida National Security Club, with the UF Engineering Innovation Institute and UF IEEE as partners.${features.statewideVision ? " Over time, the vision is a statewide conference that rotates among universities across Florida." : ""}`}
             />
             <div className="mt-12">
               <OrgGroups />
             </div>
+            {hasSponsors() && (
+              <div className="mt-12">
+                <SponsorWall />
+              </div>
+            )}
+            {features.advisors && getPeople("advisor").length > 0 && (
+              <div className="mt-16">
+                <p className="type-label mb-6 text-graphite/70">Advisors</p>
+                <PeopleList group="advisor" />
+              </div>
+            )}
           </Reveal>
         </Container>
       </Section>

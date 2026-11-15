@@ -26,13 +26,15 @@ export interface SiteConfig {
   nav: NavItem[];
   ctas: { primary: Cta; secondary: Cta };
   contact: { email: string };
-  /** Set a URL to show the link; `null` hides it. */
-  social: { linkedin: string | null };
+  /** One entry per account. Set a URL to show the link; `null` hides it. */
+  social: Record<SocialPlatform, string | null>;
   /** Where "Join the mailing list" links go (the signup form's #join anchor). */
   mailingList: { href: string; benefits: string[] };
   /** Announcements not yet live. `show: false` keeps an entry in reserve; remove it when it launches. */
   comingSoon: ComingSoonItem[];
 }
+
+export type SocialPlatform = "linkedin" | "instagram" | "x" | "youtube" | "facebook";
 
 export interface ComingSoonItem {
   id: "speakers" | "innovation-expo" | "pitch-competition" | "partners" | "registration";
@@ -136,6 +138,93 @@ export interface CalendarInvite {
   reminderTime: string;
 }
 
+/** Where the summit is held. */
+export interface Venue {
+  name: string;
+  /** Campus or host institution, e.g. "University of Florida". */
+  campus?: string;
+}
+
+/** Who can attend and what it costs (shown on the homepage and Get Involved). */
+export interface Admission {
+  /** Short label, e.g. "Free and open to all". */
+  label: string;
+  /** One sentence for body copy. */
+  detail: string;
+  /** ISO date registration opens; omit while unknown. */
+  registrationOpens?: string;
+}
+
+export type SessionKind = "keynote" | "panel" | "fireside" | "workshop" | "expo" | "tour" | "meal" | "social" | "competition";
+
+/** One item on the detailed program (/program; hidden while features.programPage is off). */
+export interface ProgramSession {
+  id: string;
+  kind: SessionKind;
+  title: string;
+  /** "HH:MM", 24-hour, local time. Omit until the time is set. */
+  start?: string;
+  end?: string;
+  /** Room or building. */
+  location?: string;
+  description?: string;
+  /** Ids from content/speakers.ts. Names show only while features.speakers is on. */
+  speakerIds?: string[];
+  /** Topic or title not final: marked "Tentative". */
+  tentative?: boolean;
+  /** Short qualifier, e.g. "Invitation only". */
+  note?: string;
+  /** Optional link under the session, e.g. to a section further down the page ("#workshops"). */
+  link?: Cta;
+}
+
+export interface ProgramDay {
+  /** ISO date. */
+  date: string;
+  /** Overall hours for the day, "HH:MM" 24-hour. */
+  start?: string;
+  end?: string;
+  sessions: ProgramSession[];
+}
+
+/** One workshop in the Thursday grid. Its slot is `start` + `room`, which must match the block's slots and rooms. */
+export interface Workshop {
+  id: string;
+  title: string;
+  /** Slot start, "HH:MM" 24-hour, matching one of the block's `slots`. */
+  start: string;
+  /** Must match one of the block's `rooms` exactly. */
+  room: string;
+  /** Who runs it, e.g. "Jane Doe, P.E.". */
+  host?: string;
+  /** Page the host's name links to (profile or faculty page). */
+  hostUrl?: string;
+  /** Shown after the name, unlinked, e.g. "with the Example Society". */
+  hostDetail?: string;
+  description?: string;
+  /** Who it is for, e.g. "Engineering students". */
+  audience?: string;
+  /** Organization sponsoring this workshop, if any. */
+  sponsor?: string;
+}
+
+/** The workshop block: parallel rooms across fixed time slots. */
+export interface WorkshopBlock {
+  /** ISO date. */
+  date: string;
+  rooms: string[];
+  slots: { start: string; end: string }[];
+  sessions: Workshop[];
+}
+
+/** A confirmed sponsor for an edition (shown while features.sponsors is on). */
+export interface EditionSponsor {
+  /** Id from content/organizations.ts. */
+  orgId: string;
+  /** Id from content/sponsorship.ts. */
+  tierId: SponsorTierId;
+}
+
 export interface Edition {
   year: number;
   /** 1 for the inaugural edition. */
@@ -150,6 +239,14 @@ export interface Edition {
   city: string;
   state: string;
   coordinates: LonLat;
+  venue?: Venue;
+  admission?: Admission;
+  /** Detailed program with sessions (and times, once set). Shown only on /program. */
+  program?: ProgramDay[];
+  /** Thursday workshops by room and time slot. Shown only on /program. */
+  workshops?: WorkshopBlock;
+  /** Confirmed sponsors. Add one only after the sponsorship is confirmed. */
+  sponsors?: EditionSponsor[];
   /** Preliminary, high-level format. Editable; never presented as a final agenda. */
   format: FormatDay[];
   invite: CalendarInvite;
@@ -188,7 +285,52 @@ export interface HeroVideoConfig {
   chapters: VideoChapter[];
 }
 
+/* ---------- Sponsorship ---------- */
+
+export type SponsorTierId = "platinum" | "gold" | "silver" | "bronze" | "community";
+
+/** A named sponsorship a tier can choose (e.g. "Keynote sponsor"). */
+export interface SignatureOption {
+  title: string;
+  /** Extra cost on top of the tier, e.g. "+$1k". */
+  price?: string;
+  available: boolean;
+}
+
+export interface SponsorTier {
+  id: SponsorTierId;
+  name: string;
+  /** Display price, e.g. "$10k". */
+  price: string;
+  /** Cap on sponsors at this tier, e.g. "Limited to 2 sponsors". */
+  limit?: string;
+  /** One value per row of `sponsorBenefits`, keyed by benefit id. */
+  benefits: Record<string, string>;
+  signature: SignatureOption[];
+}
+
+export interface SponsorBenefit {
+  id: string;
+  label: string;
+  /** Footnote shown under the table. */
+  note?: string;
+}
+
 /* ---------- People ---------- */
+
+/** A confirmed speaker (shown while features.speakers is on). */
+export interface Speaker {
+  id: string;
+  name: string;
+  title: string;
+  organization: string;
+  /** Two or three sentences. */
+  bio?: string;
+  /** Path under /public/speakers (4:5). */
+  headshot?: string;
+  /** Listed first, with a "Keynote" tag. */
+  keynote?: boolean;
+}
 
 export interface Person {
   id: string;

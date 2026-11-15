@@ -1,6 +1,7 @@
 import Image from "next/image";
 import { AudienceGrid } from "@/components/blocks/AudienceGrid";
 import { ComingSoonStrip } from "@/components/blocks/ComingSoon";
+import { EventFacts } from "@/components/blocks/EventFacts";
 import { ExperienceGrid } from "@/components/blocks/ExperienceGrid";
 import { FormatDays } from "@/components/blocks/FormatDays";
 import { InnovationFeature } from "@/components/blocks/InnovationFeature";
@@ -8,6 +9,7 @@ import { LaneList } from "@/components/blocks/LaneList";
 import { OrgGroups } from "@/components/blocks/OrgGroups";
 import { PillarGrid } from "@/components/blocks/PillarGrid";
 import { SectionHeader } from "@/components/blocks/SectionHeader";
+import { SponsorWall } from "@/components/blocks/SponsorWall";
 import { WaysToGetInvolved } from "@/components/blocks/WaysToGetInvolved";
 import { Reveal } from "@/components/motion/Reveal";
 import { ButtonLink } from "@/components/ui/Button";
@@ -38,6 +40,7 @@ export function AboutSection() {
             <h2 className="max-w-[22ch] font-serif text-statement font-normal tracking-[-0.012em] text-graphite">
               {about.heading}
             </h2>
+            <EventFacts className="mt-12 md:mt-16" />
             <div className="mt-12 grid gap-10 md:mt-16 lg:grid-cols-9 lg:gap-8">
               <div className="lg:col-span-5">
                 <p className="text-lede text-graphite/85">{about.body}</p>
@@ -53,8 +56,12 @@ export function AboutSection() {
                     </li>
                   ))}
                 </ul>
-                <p className="type-label mt-6 text-graphite/70">Our vision</p>
-                <p className="mt-4 border-t border-graphite/20 pt-5 text-[1rem] leading-relaxed text-graphite/80">{about.vision}</p>
+                {features.statewideVision && (
+                  <>
+                    <p className="type-label mt-6 text-graphite/70">Our vision</p>
+                    <p className="mt-4 border-t border-graphite/20 pt-5 text-[1rem] leading-relaxed text-graphite/80">{about.vision}</p>
+                  </>
+                )}
               </div>
             </div>
           </div>
@@ -252,6 +259,9 @@ export function OrganizersSection() {
           <SectionHeader tone="paper" index="08" label="Organizers" heading="Organized in Florida, for the nation." />
           <div className="mt-12">
             <OrgGroups />
+            <div className="mt-10 empty:hidden">
+              <SponsorWall />
+            </div>
             <p className="mt-10">
               <TextLink href={isPageEnabled("/partners") ? "/partners" : "/get-involved"} className="font-medium text-graphite">
                 Partner with the summit

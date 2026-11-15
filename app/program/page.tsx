@@ -4,13 +4,17 @@ import { CtaBand } from "@/components/blocks/CtaBand";
 import { FormatDays } from "@/components/blocks/FormatDays";
 import { LaneList } from "@/components/blocks/LaneList";
 import { PageHero } from "@/components/blocks/PageHero";
+import { ProgramSchedule } from "@/components/blocks/ProgramSchedule";
 import { SectionHeader } from "@/components/blocks/SectionHeader";
+import { hasSpeakers, SpeakerGrid } from "@/components/blocks/SpeakerGrid";
+import { WorkshopGrid } from "@/components/blocks/WorkshopGrid";
 import { Reveal } from "@/components/motion/Reveal";
 import { ButtonLink } from "@/components/ui/Button";
 import { Container } from "@/components/ui/Container";
 import { Section } from "@/components/ui/Section";
 import { inquiryHref } from "@/content/site";
 import { features } from "@/content/features";
+import { formatMonthDay, formatTime, formatWeekday, getCurrentEdition } from "@/lib/content";
 
 export const metadata: Metadata = {
   title: "Program",
@@ -21,32 +25,39 @@ export const metadata: Metadata = {
 export default function ProgramPage() {
   // Hidden while the flag is off (next.config.ts also redirects this URL). See docs/feature-flags.md.
   if (!features.programPage) notFound();
+  const edition = getCurrentEdition();
   return (
     <>
       <PageHero
         label="Program"
-        title="Connect. Convene."
-        lede="Two days built around five broad lanes of conversation. The detailed program — speakers, sessions, and times — will be announced as it is confirmed."
+        title="The program"
+        lede="Thursday’s workshops and Friday’s main program, session by session. Times, rooms, and speakers will be added as they are confirmed."
       />
 
       <Section tone="ink-2">
         <Container>
-          <Reveal>
-            <SectionHeader
-              index="01"
-              label="Format"
-              meta="Preliminary"
-              heading="Two days. One statewide network."
-              lede="Thursday afternoon is for workshops, lab tours, and a VIP dinner. Friday convenes the full summit."
-            />
-            <div className="mt-14 md:mt-20">
-              <FormatDays />
-            </div>
-          </Reveal>
+          <Reveal>{edition.program?.length ? <ProgramSchedule /> : <FormatDays />}</Reveal>
         </Container>
       </Section>
 
-      <Section tone="ink">
+      {edition.workshops && (
+        <Section tone="ink" id="workshops" className="scroll-mt-16">
+          <Container>
+            <Reveal>
+              <SectionHeader
+                label={`${formatWeekday(edition.workshops.date)}, ${formatMonthDay(edition.workshops.date)}`}
+                heading="Workshops."
+                lede={`${edition.workshops.rooms.length * edition.workshops.slots.length} one-hour workshops across ${edition.workshops.rooms.length} rooms, from ${formatTime(edition.workshops.slots[0].start)} to ${formatTime(edition.workshops.slots.at(-1)!.end)}. Pick one each hour.`}
+              />
+            </Reveal>
+            <div className="mt-12 md:mt-16">
+              <WorkshopGrid />
+            </div>
+          </Container>
+        </Section>
+      )}
+
+      <Section tone="ink-2">
         <Container>
           <Reveal>
             <SectionHeader
@@ -62,14 +73,23 @@ export default function ProgramPage() {
         </Container>
       </Section>
 
-      <Section tone="ink-2" spacing="compact">
+      <Section tone="ink" spacing={hasSpeakers() ? "default" : "compact"} id="speakers" className="scroll-mt-16">
         <Container>
           <Reveal>
-            <SectionHeader
-              label="Speakers"
-              heading="Speakers coming soon."
-              lede="Keynotes and panelists from government, the military, industry, and academia will be announced to the mailing list first."
-            />
+            {hasSpeakers() ? (
+              <>
+                <SectionHeader label="Speakers" heading="Who you’ll hear from." lede="More speakers will be announced as they are confirmed." />
+                <div className="mt-12 md:mt-16">
+                  <SpeakerGrid />
+                </div>
+              </>
+            ) : (
+              <SectionHeader
+                label="Speakers"
+                heading="Speakers coming soon."
+                lede="Keynotes and panelists from government, the military, industry, and academia will be announced to the mailing list first."
+              />
+            )}
           </Reveal>
         </Container>
       </Section>

@@ -3,7 +3,7 @@ import { SignupForm } from "@/components/forms/SignupForm";
 import { Container } from "@/components/ui/Container";
 import { TextLink } from "@/components/ui/TextLink";
 import { heroVideo } from "@/content/media/hero-video";
-import { site } from "@/content/site";
+import { site, socialLinks } from "@/content/site";
 import { finalCta } from "@/content/summit";
 
 /**
@@ -48,13 +48,13 @@ export function CtaBand() {
                 {site.contact.email}
               </TextLink>
             </p>
-            {site.social.linkedin && (
-              <p>
-                <TextLink href={site.social.linkedin} className="text-bone">
-                  {site.name} on LinkedIn
+            {socialLinks.map((link) => (
+              <p key={link.platform}>
+                <TextLink href={link.href} className="text-bone">
+                  {site.name} on {link.label}
                 </TextLink>
               </p>
-            )}
+            ))}
           </div>
         </div>
       </Container>

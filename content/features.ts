@@ -8,7 +8,7 @@
  */
 export const features = {
   /* Pages. Off = removed from nav/sitemap, and the URL redirects to `fallback` below. */
-  programPage: false,
+  programPage: true,
   innovationPage: false,
   partnersPage: false,
   aboutPage: false,
@@ -16,15 +16,19 @@ export const features = {
   /* Sections and details. */
   /** Day-by-day format, full topic lanes, and proposed sessions. */
   detailedProgram: false,
-  /** Speaker section (and future speaker cards and bios). */
+  /** Confirmed speakers (content/speakers.ts): the grid on /experience and /program, and names on sessions. */
   speakers: false,
-  /** Sponsor logos and tiers (not built yet). Confirmed organizers always show. */
+  /** Confirmed sponsors by tier, and the homepage organizers section. Confirmed organizers always show. */
   sponsors: false,
-  /** "Registration coming soon" line, registration updates, and future ticketing. */
+  /** Sponsorship tiers, prices, and benefits (content/sponsorship.ts) on /get-involved and /partners. */
+  sponsorTiers: false,
+  /** Advisors (content/people.ts) under "Who's behind the summit" on /get-involved. */
+  advisors: false,
+  /** "Registration updates" mailing-list benefit, the "Registration" coming-soon card, and future ticketing. */
   registration: false,
   /** The "Coming soon" note: speakers, innovation expo, pitch competition. */
   comingSoon: true,
-  /** The statewide, rotating-host vision band. */
+  /** The statewide, rotating-host vision: the homepage band, "Our vision", and the line on /get-involved. */
   statewideVision: false,
   /** "Approximately 200–300 attendees". */
   anticipatedAttendance: false,

@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import { CtaBand } from "@/components/blocks/CtaBand";
 import { OrgGroups } from "@/components/blocks/OrgGroups";
 import { PageHero } from "@/components/blocks/PageHero";
+import { PeopleList } from "@/components/blocks/PeopleList";
 import { SectionHeader } from "@/components/blocks/SectionHeader";
 import { StatewideBand } from "@/components/blocks/StatewideBand";
 import { Reveal } from "@/components/motion/Reveal";
@@ -10,10 +11,9 @@ import { ButtonLink } from "@/components/ui/Button";
 import { Container } from "@/components/ui/Container";
 import { Section } from "@/components/ui/Section";
 import { TextLink } from "@/components/ui/TextLink";
-import { people } from "@/content/people";
-import { site } from "@/content/site";
+import { site, socialLinks } from "@/content/site";
 import { mission } from "@/content/summit";
-import { formatEditionDates, formatWeekday, getCurrentEdition } from "@/lib/content";
+import { formatEditionDates, formatWeekday, getCurrentEdition, getPeople } from "@/lib/content";
 import { features } from "@/content/features";
 
 export const metadata: Metadata = {
@@ -34,8 +34,8 @@ export default function AboutPage() {
     ["Format", edition.format.map((d) => formatWeekday(d.date)).join(" and ")],
   ];
   const groups = (Object.keys(groupTitles) as (keyof typeof groupTitles)[])
-    .map((g) => ({ group: g, members: people.filter((p) => p.group === g) }))
-    .filter((g) => g.members.length > 0);
+    .filter((g) => getPeople(g).length > 0)
+    .map((group) => ({ group }));
 
   return (
     <>
@@ -82,19 +82,13 @@ export default function AboutPage() {
         </Container>
       </Section>
 
-      {groups.map(({ group, members }) => (
+      {groups.map(({ group }) => (
         <Section key={group} tone="paper" spacing="compact">
           <Container>
             <SectionHeader tone="paper" label={groupTitles[group]} heading={groupTitles[group]} />
-            <ul className="mt-10 grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
-              {members.map((m) => (
-                <li key={m.id} className="border-t border-graphite/20 pt-4">
-                  <p className="font-display text-[1.15rem] font-medium">{m.name}</p>
-                  <p className="mt-1 text-sm text-graphite/80">{m.title}</p>
-                  <p className="text-sm text-graphite/70">{m.affiliation}</p>
-                </li>
-              ))}
-            </ul>
+            <div className="mt-10">
+              <PeopleList group={group} />
+            </div>
           </Container>
         </Section>
       ))}
@@ -114,13 +108,13 @@ export default function AboutPage() {
                   {site.contact.email}
                 </TextLink>
               </p>
-              {site.social.linkedin && (
-                <p>
-                  <TextLink href={site.social.linkedin} className="text-bone">
-                    {site.name} on LinkedIn
+              {socialLinks.map((link) => (
+                <p key={link.platform}>
+                  <TextLink href={link.href} className="text-bone">
+                    {site.name} on {link.label}
                   </TextLink>
                 </p>
-              )}
+              ))}
               <div>
                 <ButtonLink href={site.ctas.primary.href} arrow>
                   {site.ctas.primary.label}
