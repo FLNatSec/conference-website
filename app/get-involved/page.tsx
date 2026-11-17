@@ -5,6 +5,7 @@ import { PageHero } from "@/components/blocks/PageHero";
 import { PillarGrid } from "@/components/blocks/PillarGrid";
 import { SectionHeader } from "@/components/blocks/SectionHeader";
 import { WaysToGetInvolved } from "@/components/blocks/WaysToGetInvolved";
+import { SummitLogo } from "@/components/brand/SummitLogo";
 import { Reveal } from "@/components/motion/Reveal";
 import { ButtonLink } from "@/components/ui/Button";
 import { Container } from "@/components/ui/Container";
@@ -21,6 +22,7 @@ export default function GetInvolvedPage() {
   return (
     <>
       <PageHero
+        aside={<SummitLogo />}
         label="Take part"
         title="Get involved"
         lede="The inaugural summit is taking shape, and we’d like to build it with you. Whether you want to speak, sponsor, exhibit, or connect us with others, there’s a role for you."

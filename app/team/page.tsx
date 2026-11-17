@@ -3,6 +3,7 @@ import { CtaBand } from "@/components/blocks/CtaBand";
 import { PageHero } from "@/components/blocks/PageHero";
 import { PersonCard } from "@/components/blocks/PersonCard";
 import { SectionHeader } from "@/components/blocks/SectionHeader";
+import { SummitLogo } from "@/components/brand/SummitLogo";
 import { Reveal } from "@/components/motion/Reveal";
 import { Container } from "@/components/ui/Container";
 import { Section } from "@/components/ui/Section";
@@ -22,6 +23,7 @@ export default function TeamPage() {
   return (
     <>
       <PageHero
+        aside={<SummitLogo />}
         label="Team"
         title="The team"
         lede="The summit is organized by students at the University of Florida National Security Club, with guidance from faculty and professional advisors."

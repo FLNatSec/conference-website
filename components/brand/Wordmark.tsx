@@ -1,10 +1,11 @@
 import { site } from "@/content/site";
 import { cn } from "@/lib/cn";
 import { Mark } from "./Mark";
+import { SummitLogo } from "./SummitLogo";
 
 /*
  * PROVISIONAL logo lockups: the Florida mark plus the name in the display face.
- *   horizontal: mark + two-line name (header)
+ *   horizontal: summit emblem + two-line name (header, mobile menu)
  *   stacked:    mark above a three-line name (footer, posters)
  */
 
@@ -35,7 +36,7 @@ export function Wordmark({ variant = "horizontal", className }: WordmarkProps) {
 
   return (
     <span className={cn("inline-flex items-center gap-2.5", className)}>
-      <Mark className="size-9" />
+      <SummitLogo className="w-14" sizes="56px" decorative />
       <span className="type-expanded font-display text-[0.74rem] leading-[1.15] font-semibold tracking-[0.06em]">
         {florida} {national}
         <br />

@@ -9,10 +9,12 @@ interface PageHeroProps {
   /** Optional duotone background still (graded footage frame). */
   image?: StaticImageData;
   children?: ReactNode;
+  /** Shown to the right of the title on large screens, below the lede on small ones. */
+  aside?: ReactNode;
 }
 
 /** Interior page opener: navy, large expanded title, short lede, optional actions. */
-export function PageHero({ label, title, lede, image, children }: PageHeroProps) {
+export function PageHero({ label, title, lede, image, children, aside }: PageHeroProps) {
   return (
     <section className="relative isolate overflow-hidden bg-ink text-bone">
       {image && (
@@ -24,14 +26,17 @@ export function PageHero({ label, title, lede, image, children }: PageHeroProps)
           />
         </>
       )}
-      <Container className="pt-36 pb-20 md:pt-48 md:pb-28">
-        <p className="type-label flex items-center gap-3 text-bone/75">
-          <span aria-hidden="true" className="h-px w-7 bg-highlight-300" />
-          {label}
-        </p>
-        <h1 className="type-expanded mt-8 max-w-[14ch] font-display text-display-l font-semibold uppercase">{title}</h1>
-        {lede && <div className="mt-8 max-w-[56ch] text-lede text-bone/80">{lede}</div>}
-        {children && <div className="mt-10 flex flex-col gap-3 sm:flex-row">{children}</div>}
+      <Container className="grid items-center gap-12 pt-36 pb-20 md:pt-48 md:pb-28 lg:grid-cols-[1fr_auto]">
+        <div>
+          <p className="type-label flex items-center gap-3 text-bone/75">
+            <span aria-hidden="true" className="h-px w-7 bg-highlight-300" />
+            {label}
+          </p>
+          <h1 className="type-expanded mt-8 max-w-[14ch] font-display text-display-l font-semibold uppercase">{title}</h1>
+          {lede && <div className="mt-8 max-w-[56ch] text-lede text-bone/80">{lede}</div>}
+          {children && <div className="mt-10 flex flex-col gap-3 sm:flex-row">{children}</div>}
+        </div>
+        {aside}
       </Container>
     </section>
   );

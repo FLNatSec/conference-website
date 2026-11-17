@@ -11,6 +11,7 @@ Every externally sourced asset or dataset used by the site is recorded here: wha
 | USCGC Eagle under sail (hero loop) | `public/media/hero/hero-*.mp4` | DVIDS, DoD asset DOD_111728981 (U.S. Coast Guard) — **DVIDS page URL and credit to be recorded** | U.S. Government work, public domain (per DVIDS); no implied endorsement | 2026-10-05 | Excerpt 2–7 s, cropped, darkened, navy → ice duotone |
 | Bomber formation over the coast (hero loop) | `public/media/hero/hero-*.mp4` | DVIDS, DoD asset DOD_111020700 — **DVIDS page URL and credit to be recorded** | U.S. Government work, public domain (per DVIDS); no implied endorsement | 2026-10-05 | Excerpt 14.5–20 s, cropped, darkened, navy → ice duotone |
 | Sunset from a ship's bridge (hero loop) | `public/media/hero/hero-*.mp4` | DVIDS, DoD asset DOD_111796027 (U.S. Navy) — **DVIDS page URL and credit to be recorded** | U.S. Government work, public domain (per DVIDS); service members shown only in silhouette from behind | 2026-10-05 | Excerpt 46–50.5 s, cropped, navy → ice duotone |
+| Summit emblem (shield logo) | `public/brand/summit-logo.png` via `components/brand/SummitLogo.tsx` (Get Involved and Team page heroes) | Organizer-provided (UF National Security Club, `FNSS Logo – Dark@2x.png`, the dark-background version) | Organizer-owned | 2026-11-17 | Flat outer background made transparent, cropped to its edges, resized to 1100 px wide |
 
 ## Regenerating the map geometry
 
