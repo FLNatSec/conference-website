@@ -12,6 +12,7 @@ const allNav: NavItem[] = [
   { label: "Why Florida", href: "/why-florida" },
   { label: "The Experience", href: "/experience" },
   { label: "Get Involved", href: "/get-involved" },
+  { label: "Team", href: "/team" },
   // Hidden pages (see docs/feature-flags.md)
   { label: "Program", href: "/program" },
   { label: "Innovation", href: "/innovation" },

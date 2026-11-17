@@ -21,7 +21,7 @@ export const metadata: Metadata = {
   description: `${site.name}: a student-led summit. Mission, format, statewide vision, organizers, and contact.`,
 };
 
-const groupTitles = { advisor: "Advisors", steering: "Steering committee", team: "Planning team" } as const;
+const groupTitles = { organizer: "Lead organizers", team: "Planning team", advisor: "Advisors" } as const;
 
 export default function AboutPage() {
   // Hidden while the flag is off (next.config.ts also redirects this URL). See docs/feature-flags.md.

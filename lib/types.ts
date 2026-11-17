@@ -190,12 +190,15 @@ export interface HeroVideoConfig {
 
 /* ---------- People ---------- */
 
+export type PersonGroup = "organizer" | "team" | "advisor";
+
 export interface Person {
   id: string;
   name: string;
   title: string;
   affiliation: string;
-  group: "advisor" | "steering" | "team";
+  group: PersonGroup;
+  /** Path under public/, e.g. "/people/jane-doe.jpg" (4:5). Initials show without one. */
   headshot?: string;
 }
 

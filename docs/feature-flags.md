@@ -21,7 +21,7 @@ and removes the redirect.
 | `programPage` | `/program` | `/experience` | Day-by-day format, five lanes of conversation, "speakers coming soon," suggest a speaker |
 | `innovationPage` | `/innovation` | `/experience#innovation` | Innovation Expo and Pitch Competition in detail, with who each is for |
 | `partnersPage` | `/partners` | `/get-involved` | Why partner, organizers, partnership contact |
-| `aboutPage` | `/about` | `/get-involved` | Mission, summit facts, statewide vision, organizers, people (advisors, steering committee, team), contact |
+| `aboutPage` | `/about` | `/get-involved` | Mission, summit facts, statewide vision, organizers, people (lead organizers, planning team, advisors — also on `/team`), contact |
 
 ## Sections and details
 
